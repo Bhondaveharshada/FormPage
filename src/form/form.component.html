@@ -1,102 +1,68 @@
-<div class="mt-2 p-2 text-black rounded">
-    
-    <h3>Form in angular</h3>
- </div>
- <br> 
- <form [formGroup]="userForm"  class="container row g-5 d-flex justify-content-center align-item-center " >
-     <div class="col-md-4">
-         <label class="form-label">First name</label>
-         <input type="text" class="form-control" formControlName="fname">
-         <div class="text-danger">
-             @if(userForm.controls['fname'].hasError('required') && userForm.controls['fname'].touched){
-                 <span>Required!!.</span>
-             }@else if (userForm.controls['fname'].hasError('minlength')) {
-                <span>name should be at least 2character long</span>
-             }@else if (userForm.controls['fname'].hasError('maxlength')) {
-                 <span> name should be less than 10characters.</span>
-             }
-         </div>
-         
-     </div>
-     <div class="col-md-4">
-         <label class="form-label">Last name</label>
-         <input type="text" class="form-control" formControlName="lname">
-         <div class="text-danger">
-             @if(userForm.controls['lname'].hasError('required') && userForm.controls['lname'].touched){
-                 <span>Required!!.</span>
-             }@else if (userForm.controls['lname'].hasError('minlength')) {
-                <span>name should be at least 2character long</span>
-             }@else if (userForm.controls['lname'].hasError('maxlength')) {
-                 <span> name should be less than 10characters.</span>
-             }
-         </div>
-     </div>
-     <div class="col-md-4">
-         <label class="form-label">Username</label>
-         <div class="input-group has-validation">
-             <span class="input-group-text">&#64;</span>
-             <input type="text" class="form-control" formControlName="username">
-         </div>
-         <div class="text-danger">
-             @if(userForm.controls['username'].hasError('required')){
-                 <span>Required!!.</span>
-             }@else if(userForm.controls['username'].hasError('email')){
-                 <span>this is not valid email..plz enter proper.</span>
-             }
-         </div>
- 
-     </div>
-     <div class="col-md-6">
-         <label class="form-label">City</label>
-         <input type="text" class="form-control" formControlName="city">
-         <div class="text-danger">
-             @if(userForm.controls['city'].hasError('required')){
-                 <span>Required!!.</span>
-             }
-         </div>
-     </div>
-     <div class="col-md-3">
-         <label class="form-label">State</label>
-         <select class="form-select" formControlName="state" required>
-             <option selected disabled value="">Choose...</option>
-             <option>Maharastra</option>
-             <option>Delhi</option>
-             <option>Panjab</option>
-             <option>Gujarat</option>
-             <option>Karanatka</option>
-             <option>Uttarpradesh</option>
-         </select>
-         <div class="text-danger">
-             
-         </div>
-     </div>
-     <div class="col-md-3">
-         <label class="form-label">Zip</label>
-         <input type="text" class="form-control" formControlName="zipCode">
-         <div class="text-danger">
-             @if(userForm.controls['zipCode'].hasError('required')){
-                 <span>Required!!.</span>
-             }@else if(userForm.controls['zipCode'].hasError("maxlength") || userForm.controls['zipCode'].hasError("minlength") ) {
-                 <span>zipcode must be 6 digit long.</span>
-             }
-         </div>
-     </div>
-     <div class="col-12">
-         <div class="form-check">
-             <input class="form-check-input" type="checkbox" value="" formControlName="isAgree">
-             <label class="form-check-label" for="invalidCheck">
-                 Agree to terms and conditions
-             </label>
-             <div class="text-danger">
-                 @if(userForm.get('isAgree').invalid){
-                   <span>You must agree before submitting.</span>
-                 }
-                 
-             </div>
-         </div>
-     </div>
-     <div >
-         <button  class="btn btn-secondary" type="submit">Reset</button>
-         <button class="btn btn-primary" style="margin-left: 10px;" type="submit" [disabled]="userForm.invalid" (click)="onSave()">Save</button>
-     </div>
- </form>
+<div class="mt-2 p-3 text-white bg-primary rounded">
+    <h3 class="text-center">Form in Angular</h3>
+  </div>
+  <br />
+  <form
+    [formGroup]="userForm"
+    class="container row g-4 d-flex justify-content-center align-items-center"
+  >
+    <!-- Title Field -->
+    <div class="col-md-6">
+      <label class="form-label fw-bold">Title</label>
+      <input
+        type="text"
+        class="form-control"
+        formControlName="title"
+        placeholder="Enter a title"
+      />
+      <div class="text-danger mt-1">
+        <span *ngIf="userForm.controls['title'].hasError('required') && userForm.controls['title'].touched">
+          Title is required!
+        </span>
+        <span *ngIf="userForm.controls['title'].hasError('minlength')">
+          Title should be at least 5 characters long.
+        </span>
+        <span *ngIf="userForm.controls['title'].hasError('maxlength')">
+          Title should be less than 50 characters.
+        </span>
+      </div>
+    </div>
+  
+    <!-- Question Field -->
+    <div class="col-md-6">
+      <label class="form-label fw-bold">Question</label>
+      <textarea
+        class="form-control"
+        rows="4"
+        formControlName="question"
+        placeholder="Enter your question"
+      ></textarea>
+      <div class="text-danger mt-1">
+        <span *ngIf="userForm.controls['question'].hasError('required') && userForm.controls['question'].touched">
+          Question is required!
+        </span>
+        <span *ngIf="userForm.controls['question'].hasError('minlength')">
+          Question should be at least 10 characters long.
+        </span>
+        <span *ngIf="userForm.controls['question'].hasError('maxlength')">
+          Question should be less than 200 characters.
+        </span>
+      </div>
+    </div>
+  
+    <!-- Submit Button -->
+    <div class="col-md-12 text-center">
+      <button class="btn btn-primary px-5" type="submit" (click)="onSave()">
+        Generate Link
+      </button>
+    </div>
+  </form>
+  
+  <!-- Generated Link Section -->
+  <div class="mt-4 text-center">
+    <p *ngIf="formLink" class="text-success">
+      Share this link:
+      <a [href]="formLink"  class="text-decoration-none">{{ formLink }}</a>
+    </p>
+  </div>
+  

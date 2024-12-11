@@ -1,0 +1,25 @@
+<div *ngIf="formData" class="container mt-5">
+    <div class="card">
+      <div class="card-body">
+        <h1 class="card-title text-center">{{ formData.title }}</h1>
+        <p class="card-text">{{ formData.question }}</p>
+        <form [formGroup]="formGroup" (ngSubmit)="submitAnswer()">
+          <div class="mb-3">
+            <label for="answer" class="form-label">Answer</label>
+            <input
+              type="text"
+              id="answer"
+              class="form-control"
+              formControlName="answer"
+              placeholder="Enter your answer"
+            />
+            <div *ngIf="formGroup.get('answer')?.invalid && formGroup.get('answer')?.touched" class="text-danger">
+              <small>Answer is required</small>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary w-100" [disabled]="formGroup.invalid">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
