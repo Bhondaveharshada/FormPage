@@ -21,7 +21,10 @@ export class FormgenerateComponent {
 
   ngOnInit(): void {
     const formId = this.route.snapshot.paramMap.get('formId');
+    const id = this.route.snapshot.paramMap.get('id');
 
+    
+    
     // Get form data from localStorage
     const storedData = localStorage.getItem(`form_${formId}`);
     if (storedData) {
