@@ -20,7 +20,9 @@ export class FormService {
   }
 
   addFormFields(data:any, formId:any){
-    const {title,addformfields} = data 
-    return this.http.post(`${this.apiUrl}/addformfields`, {data},formId);
+    const {title,addformfields} = data
+    console.log("formid",formId);
+     
+    return this.http.post(`${this.apiUrl}/addformfields`, {data,formId});
   }
 }
