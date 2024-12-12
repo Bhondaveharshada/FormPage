@@ -1,62 +1,86 @@
 <div class="mt-2 p-3 text-white bg-primary rounded">
-    <h3 class="text-center">Form in Angular</h3>
+  <h3 class="text-center">Form in Angular</h3>
+</div>
+<br />
+<form
+  [formGroup]="userForm"
+  class="container row g-4 d-flex justify-content-center align-items-center"
+>
+  <!-- Title Field -->
+  <div class="col-md-6">
+  <div >
+    <label class="form-label fw-bold">Title</label>
+    <input
+      type="text"
+      class="form-control"
+      formControlName="title"
+      placeholder="Enter a title"
+    />
+    <div class="text-danger mt-1">
+      <span *ngIf="userForm.controls['title'].hasError('required') && userForm.controls['title'].touched">
+        Title is required!
+      </span>
+      <span *ngIf="userForm.controls['title'].hasError('minlength')">
+        Title should be at least 5 characters long.
+      </span>
+      <span *ngIf="userForm.controls['title'].hasError('maxlength')">
+        Title should be less than 50 characters.
+      </span>
+    </div>
   </div>
-  <br />
-  <form
-    [formGroup]="userForm"
-    class="container row g-4 d-flex justify-content-center align-items-center"
-  >
-    <!-- Title Field -->
-    <div class="col-md-6">
-      <label class="form-label fw-bold">Title</label>
+
+  <!-- Question Field -->
+<!--   <div class="col-md-6">
+    <label class="form-label fw-bold">Question</label>
+    <textarea
+      class="form-control"
+      rows="4"
+      formControlName="question"
+      placeholder="Enter your question"
+    ></textarea>
+    <div class="text-danger mt-1">
+      <span *ngIf="userForm.controls['question'].hasError('required') && userForm.controls['question'].touched">
+        Question is required!
+      </span>
+      <span *ngIf="userForm.controls['question'].hasError('minlength')">
+        Question should be at least 10 characters long.
+      </span>
+      <span *ngIf="userForm.controls['question'].hasError('maxlength')">
+        Question should be less than 200 characters.
+      </span>
+    </div>
+  </div> -->
+
+  <!-- Dynamic Fields -->
+  <div formArrayName="additionalFields" class="col-12">
+    <div *ngFor="let field of additionalFields.controls; let i = index" [formGroupName]="i" class="mb-3">
+      <label class="form-label fw-bold">Additional Field {{ i + 1 }}</label>
       <input
         type="text"
         class="form-control"
-        formControlName="title"
-        placeholder="Enter a title"
+        formControlName="value"
+        placeholder="Enter additional field value"
       />
       <div class="text-danger mt-1">
-        <span *ngIf="userForm.controls['title'].hasError('required') && userForm.controls['title'].touched">
-          Title is required!
-        </span>
-        <span *ngIf="userForm.controls['title'].hasError('minlength')">
-          Title should be at least 5 characters long.
-        </span>
-        <span *ngIf="userForm.controls['title'].hasError('maxlength')">
-          Title should be less than 50 characters.
+        <span *ngIf="field.get('value')?.hasError('required') && field.get('value')?.touched">
+          This field is required!
         </span>
       </div>
     </div>
-  
-    <!-- Question Field -->
-    <div class="col-md-6">
-      <label class="form-label fw-bold">Question</label>
-      <textarea
-        class="form-control"
-        rows="4"
-        formControlName="question"
-        placeholder="Enter your question"
-      ></textarea>
-      <div class="text-danger mt-1">
-        <span *ngIf="userForm.controls['question'].hasError('required') && userForm.controls['question'].touched">
-          Question is required!
-        </span>
-        <span *ngIf="userForm.controls['question'].hasError('minlength')">
-          Question should be at least 10 characters long.
-        </span>
-        <span *ngIf="userForm.controls['question'].hasError('maxlength')">
-          Question should be less than 200 characters.
-        </span>
-      </div>
-    </div>
-  
-    <!-- Submit Button -->
-    <div class="col-md-12 text-center">
-      <button class="btn btn-primary px-5" type="submit" (click)="onSave()">
-        Generate Link
-      </button>
-    </div>
-  </form>
+  </div>
+</div>
+
+
+  <!-- Add Field Button -->
+  <div class="col-12 text-center">
+    <button type="button" class="btn btn-primary" (click)="addField()">Add Field</button>
+  </div>
+  <div class="col-md-12 text-center">
+    <button class="btn btn-primary px-5" type="submit" (click)="onSave()">
+      Generate Link
+    </button>
+  </div>
+</form>
   
   <!-- Generated Link Section -->
   <div class="mt-4 text-center">

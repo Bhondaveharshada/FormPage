@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ReactiveFormsModule, Validators, FormGroup, FormBuilder } from '@angular/forms';
+import { ReactiveFormsModule, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FormService } from '../services/form.service';
 import { CommonModule } from '@angular/common';
@@ -22,25 +22,44 @@ export class FormComponent implements OnInit {
      ngOnInit(){
       this.userForm =this._fb.group({
         title:['',[Validators.required,Validators.minLength(2),Validators.maxLength(10)]],
-        question:['',[Validators.required,Validators.minLength(2),Validators.maxLength(10)]],
-     
-      })
-     }
+        additionalFields: this._fb.array([]), // Dynamic fields
+      });
+    }
+  
+    // Getter for additionalFields
+    get additionalFields(): FormArray {
+      return this.userForm.get('additionalFields') as FormArray;
+    }
+
+
+    addField(): void {
+      const newField = this._fb.group({
+        value: ['', Validators.required], // Add validation as needed
+      });
+      this.additionalFields.push(newField);
+    }
 
      onSave(){
       const formId = new Date().getTime();
       const formvalue = this.userForm.value
-      localStorage.setItem(`form_${formId}`, JSON.stringify(formvalue)); // Save form data locally
+      console.log("formdata", formvalue);
+      
+      localStorage.setItem(`form_${formId}`, JSON.stringify(formvalue)); 
       this.formLink = `${window.location.origin}/form/${formId}`;
-      console.log(formvalue);
-      this.formService.addform(formvalue,formId).subscribe({
+      // Save form data locally
+      this.formService.addFormFields(formvalue,formId).subscribe({
         next:(res:any)=>{
-          console.log("stored successfully",res);
+          console.log("stored successfully",res.result);
+          const id = res.result._id
+          this.formLink = `${window.location.origin}/form/${id}/${formId}`;
+
           
         },error :(err:any)=>{
           console.log("errrorrr");
           
         }
+
+
       })
   
     

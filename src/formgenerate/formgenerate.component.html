@@ -1,25 +1,50 @@
-<div *ngIf="formData" class="container mt-5">
-    <div class="card">
-      <div class="card-body">
-        <h1 class="card-title text-center">{{ formData.title }}</h1>
-        <p class="card-text">{{ formData.question }}</p>
-        <form [formGroup]="formGroup" (ngSubmit)="submitAnswer()">
-          <div class="mb-3">
-            <label for="answer" class="form-label">Answer</label>
-            <input
-              type="text"
-              id="answer"
-              class="form-control"
-              formControlName="answer"
-              placeholder="Enter your answer"
-            />
-            <div *ngIf="formGroup.get('answer')?.invalid && formGroup.get('answer')?.touched" class="text-danger">
-              <small>Answer is required</small>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary w-100" [disabled]="formGroup.invalid">Submit</button>
-        </form>
+<div class="container mt-4">
+  <h2 class="text-center">Form Preview</h2>
+  <form *ngIf="previewForm" [formGroup]="previewForm" class="row g-4">
+    <!-- Title -->
+    <div class="col-md-6">
+      <h1 class="card-title text-center">{{ formData.title }}</h1>
+    </div>
+
+    <!-- Question -->
+<!--     <div class="col-md-6">
+      <label class="form-label fw-bold">Question</label>
+      <textarea
+        class="form-control"
+        rows="4"
+        formControlName="question"
+        placeholder="Question"
+      ></textarea>
+    </div> -->
+
+    <!-- Dynamic Fields -->
+    <div formArrayName="additionalFields" class="w-100">
+      <div
+        *ngFor="let field of additionalFields.controls; let i = index"
+        [formGroupName]="i"
+        class="col-md-6"
+      >
+        <label class="form-label fw-bold">  {{ field.get('value')?.value || 'Field ' + (i + 1) }}</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="value"
+          placeholder="  {{ field.get('value')?.value || 'Field ' + (i + 1) }}"
+        />
       </div>
     </div>
-  </div>
+
+    <!-- Submit Button -->
+    <div class="col-md-12 text-center">
+      <button
+        type="button"
+        class="btn btn-primary mt-3"
+        (click)="onSubmit()"
+      >
+        Submit
+      </button>
+    </div>
+  </form>
+</div>
+
   

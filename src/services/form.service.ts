@@ -10,8 +10,17 @@ export class FormService {
   constructor(private http:HttpClient) { }
  
 
-  addform(data:any,formId:Number){
+  addform(data:any){
     const {title ,question} = data ;
-   return this.http.post(`${this.apiUrl}/addform`,{title,question,formId})
+   return this.http.post(`${this.apiUrl}/addform`,data)
+  }
+
+  getForm(formId:any){
+    return this.http.get(`${this.apiUrl}/getFrom`,formId)
+  }
+
+  addFormFields(data:any, formId:any){
+    const {title,addformfields} = data 
+    return this.http.post(`${this.apiUrl}/addformfields`, {data},formId);
   }
 }

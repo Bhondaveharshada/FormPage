@@ -7,7 +7,7 @@ export const routes: Routes = [{
 
 },
 {
-    path:"form/:id", component:FormgenerateComponent
+    path:"form/:formId", component:FormgenerateComponent
 },
 {
     path:"",redirectTo:'register' ,pathMatch:'full'
