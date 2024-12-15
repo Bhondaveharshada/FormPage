@@ -12,9 +12,13 @@ import { FormService } from '../services/form.service';
 })
 export class FormgenerateComponent {
   previewForm: FormGroup | null = null;
+  
+  
+  // Replace with the ObjectId you want to fetch
+  
 
   formData: any = null; // Static title and question
-
+  fields: [] = [];
   constructor(private fb: FormBuilder,private route: ActivatedRoute, private formService:FormService, ) {
   
   }
@@ -22,27 +26,48 @@ export class FormgenerateComponent {
   ngOnInit(): void {
     const formId = this.route.snapshot.paramMap.get('formId');
     const id = this.route.snapshot.paramMap.get('id');
-
-    
+    this.fetchFormFields(id)
     
     // Get form data from localStorage
-    const storedData = localStorage.getItem(`form_${formId}`);
-    if (storedData) {
-      this.formData = JSON.parse(storedData);
+    // const storedData = localStorage.getItem(`form_${formId}`);
+    // if (storedData) {
+    //   this.formData = JSON.parse(storedData);
+    // Initialize form with retrieved data
+    
 
-      // Initialize form with retrieved data
-      this.previewForm = this.fb.group({
-        title: [this.formData.title, Validators.required],
-        additionalFields: this.fb.array(
-          this.formData.additionalFields.map((field: any) =>
-            this.fb.group({
-              value: [field.value, Validators.required], // Pre-fill values
-            })
-          )
-        ),
-      });
-    }
+     
+  
   }
+
+  fetchFormFields(id:any): void {
+    this.formService.getFormFields(id).subscribe({
+      next:(response:any)=>{
+        this.formData=response.result
+        this.fields = response.result.additionalFields
+        console.log("fields",this.fields);
+        
+        console.log("formfields",this.formData);
+        this.previewForm = this.fb.group({
+          title: [this.formData.title, Validators.required],
+          additionalFields: this.fb.array(
+            this.formData.additionalFields.map((field: any) =>
+              this.fb.group({
+                value: [field.value, Validators.required], // Pre-fill values
+              })
+            )
+          ),
+        });
+        
+      },error: (err:any)=>{
+        console.error("error fetching fields",err);
+        
+      }
+    });
+  }
+
+  
+  
+  
 
     // Getter for additional fields
     get additionalFields(): FormArray {

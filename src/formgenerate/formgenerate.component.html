@@ -20,16 +20,16 @@
     <!-- Dynamic Fields -->
     <div formArrayName="additionalFields" class="w-100">
       <div
-        *ngFor="let field of additionalFields.controls; let i = index"
+        *ngFor="let field of fields; let i = index"
         [formGroupName]="i"
         class="col-md-6"
       >
-        <label class="form-label fw-bold">  {{ field.get('value')?.value || 'Field ' + (i + 1) }}</label>
+        <label class="form-label fw-bold">  {{ field['value'] }}</label>
         <input
           type="text"
           class="form-control"
           formControlName="value"
-          placeholder="  {{ field.get('value')?.value || 'Field ' + (i + 1) }}"
+          placeholder="Enter a value"
         />
       </div>
     </div>

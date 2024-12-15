@@ -72,9 +72,30 @@
 
 
   <!-- Add Field Button -->
-  <div class="col-12 text-center">
-    <button type="button" class="btn btn-primary" (click)="addField()">Add Field</button>
+  <div class="container">
+    <!-- Add Field Button -->
+    <div class="col-12 text-center my-3">
+      <button type="button" class="btn btn-primary" (click)="addField()">Add Field</button>
+    </div>
+  
+<!--     Dynamically Generated Dropdowns 
+    <div *ngFor="let field of fields; let i = index" class="row mb-3 align-items-center">
+      <div class="col-md-4">
+        <!-- Dropdown for selecting field type 
+        <select #dropdown (change)="updateFieldType(i, dropdown.value)" class="form-select">
+          <option value="string" [selected]="field === 'string'">String</option>
+          <option value="number" [selected]="field === 'number'">Number</option>
+          <option value="email" [selected]="field === 'email'">Email</option>
+          <option value="password" [selected]="field === 'password'">Password</option>
+        </select>
+      </div>
+      <div class="col-md-8">
+        <!-- Display selected type 
+        <span>You selected: {{ field }}</span>
+      </div>
+    </div> -->
   </div>
+  
   <div class="col-md-12 text-center">
     <button class="btn btn-primary px-5" type="submit" (click)="onSave()">
       Generate Link

@@ -14,6 +14,8 @@ export class FormComponent implements OnInit {
 
   userForm:any=FormGroup;
   formLink: string | null = null;
+  fields: string[] = [];
+  
 
      constructor(private _fb:FormBuilder,
         private formService : FormService
@@ -39,18 +41,27 @@ export class FormComponent implements OnInit {
       this.additionalFields.push(newField);
     }
 
+    addFields() {
+      this.fields.push('string'); // Add default type as 'string'
+    }
+    updateFieldType(index: number, type: string) {
+      this.fields[index] = type; // Update the selected type at the specific index
+    }
+
      onSave(){
       const formId = new Date().getTime();
       const formvalue = this.userForm.value
       console.log("formdata", formvalue);
       
       localStorage.setItem(`form_${formId}`, JSON.stringify(formvalue)); 
-      this.formLink = `${window.location.origin}/form/${formId}`;
+    //  this.formLink = `${window.location.origin}/form/${formId}`;
       // Save form data locally
       this.formService.addFormFields(formvalue,formId).subscribe({
         next:(res:any)=>{
           console.log("stored successfully",res.result);
           const id = res.result._id
+          console.log(id);
+          
           this.formLink = `${window.location.origin}/form/${id}/${formId}`;
 
           

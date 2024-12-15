@@ -25,5 +25,10 @@ export class FormService {
     console.log("formid",formId);
     return this.http.post(`${environment.api}/addformfields`, {data,formId});
   }
+
+  getFormFields(id:any)
+  {
+    return this.http.get(`${environment.api}/getformfields/${id}`);
+  }
      
 }
