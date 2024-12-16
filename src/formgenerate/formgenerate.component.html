@@ -1,28 +1,15 @@
 <div class="container mt-4">
-  <h2 class="text-center">Form Preview</h2>
+  <h1 class="text-center card-title">{{ formData.title }}</h1>
   <form *ngIf="previewForm" [formGroup]="previewForm" class="row g-4">
     <!-- Title -->
-    <div class="col-md-6">
-      <h1 class="card-title text-center">{{ formData.title }}</h1>
-    </div>
-
-    <!-- Question -->
-<!--     <div class="col-md-6">
-      <label class="form-label fw-bold">Question</label>
-      <textarea
-        class="form-control"
-        rows="4"
-        formControlName="question"
-        placeholder="Question"
-      ></textarea>
-    </div> -->
+   
 
     <!-- Dynamic Fields -->
     <div formArrayName="additionalFields" class="w-100">
       <div
         *ngFor="let field of fields; let i = index"
         [formGroupName]="i"
-        class="col-md-6"
+        class="col-md-8 card-body"
       >
         <label class="form-label fw-bold">  {{ field['value'] }}</label>
         <input
@@ -46,5 +33,3 @@
     </div>
   </form>
 </div>
-
-  
