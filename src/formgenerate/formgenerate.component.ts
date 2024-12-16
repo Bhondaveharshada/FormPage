@@ -53,14 +53,14 @@ export class FormgenerateComponent {
             this.formData.additionalFields.map((field: any) =>
               this.fb.group({
                 value: [field.value, Validators.required], // Pre-fill values
-              })
+                inputType: [field.inputType, Validators.required], 
+              }) 
             )
           ),
         });
         
       },error: (err:any)=>{
-        console.error("error fetching fields",err);
-        
+        console.error("error fetching fields",err);  
       }
     });
   }
