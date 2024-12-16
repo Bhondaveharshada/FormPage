@@ -12,17 +12,17 @@ export class FormService {
  
 
   addform(data:any){
-    const {title ,question} = data ;
+    console.log("data to add", data);
+    
    return this.http.post(`${environment.api}/addform`,data)
   }
 
-  getForm(formId:any){
-    return this.http.get(`${environment.api}/getFrom`,formId)
+  getForm(id:any){
+    return this.http.get(`${environment.api}/getFrom`,id)
   }
 
   addFormFields(data:any, formId:any){
     const {title,addformfields} = data
-    console.log("formid",formId);
     return this.http.post(`${environment.api}/addformfields`, {data,formId});
   }
 
