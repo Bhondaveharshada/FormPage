@@ -19,6 +19,7 @@ export class FormgenerateComponent {
 
   formData: any = null; // Static title and question
   fields: [] = [];
+  formfieldId:any;
   constructor(private fb: FormBuilder,private route: ActivatedRoute, private formService:FormService, ) {
   
   }
@@ -26,6 +27,7 @@ export class FormgenerateComponent {
   ngOnInit(): void {
     const formId = this.route.snapshot.paramMap.get('formId');
     const id = this.route.snapshot.paramMap.get('id');
+    this.formfieldId = id
     this.fetchFormFields(id)
     
     // Get form data from localStorage
@@ -43,7 +45,7 @@ export class FormgenerateComponent {
     this.formService.getFormFields(id).subscribe({
       next:(response:any)=>{
         this.formData=response.result
-        this.fields = response.result.additionalFields
+        this.fields=response.result.additionalFields.map((field: any) => field);
         console.log("fields",this.fields);
         
         console.log("formfields",this.formData);
@@ -58,6 +60,7 @@ export class FormgenerateComponent {
             )
           ),
         });
+        console.log("preiview from",this.previewForm);
         
       },error: (err:any)=>{
         console.error("error fetching fields",err);  
@@ -76,11 +79,16 @@ export class FormgenerateComponent {
 
   onSubmit() {
     if (this.previewForm?.valid) {
-      this.formService.addform(this.previewForm.value).subscribe({
+      this.formService.addform(this.previewForm.value, this.formfieldId).subscribe({
         next:(res:any)=>{
           console.log("stored successfully",res.result);
           const id = res.result._id
-      
+          this.formService.getForm(id).subscribe({
+            next:(res:any)=>{
+              console.log("formdata",res);
+              
+            }
+          })
 
           
         },error :(err:any)=>{

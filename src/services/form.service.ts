@@ -11,10 +11,9 @@ export class FormService {
   constructor(private http:HttpClient) { }
  
 
-  addform(data:any){
-    console.log("data to add", data);
-    
-   return this.http.post(`${environment.api}/addform`,data)
+  addform(data:any,fieldsId:any){
+    const payload = { ...data, fieldsId };
+   return this.http.post(`${environment.api}/addform`,payload)
   }
 
   getForm(id:any){
