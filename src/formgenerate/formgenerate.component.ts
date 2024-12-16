@@ -43,7 +43,7 @@ export class FormgenerateComponent {
     this.formService.getFormFields(id).subscribe({
       next:(response:any)=>{
         this.formData=response.result
-        this.fields = response.result.additionalFields
+        this.fields=response.result.additionalFields.map((field: any) => field.value);
         console.log("fields",this.fields);
         
         console.log("formfields",this.formData);
@@ -57,6 +57,7 @@ export class FormgenerateComponent {
             )
           ),
         });
+        console.log("preiview from",this.previewForm);
         
       },error: (err:any)=>{
         console.error("error fetching fields",err);
@@ -80,7 +81,12 @@ export class FormgenerateComponent {
         next:(res:any)=>{
           console.log("stored successfully",res.result);
           const id = res.result._id
-      
+          this.formService.getForm(id).subscribe({
+            next:(res:any)=>{
+              console.log("formdata",res);
+              
+            }
+          })
 
           
         },error :(err:any)=>{

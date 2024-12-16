@@ -58,11 +58,12 @@ export class FormComponent implements OnInit {
       // Save form data locally
       this.formService.addFormFields(formvalue,formId).subscribe({
         next:(res:any)=>{
-          console.log("stored successfully",res.result);
+          console.log(" fields stored successfully",res.result);
           const id = res.result._id
+          const formid = res.result.formId
           console.log(id);
           
-          this.formLink = `${window.location.origin}/form/${id}/${formId}`;
+          this.formLink = `${window.location.origin}/form/${id}/${formid}`;
 
           
         },error :(err:any)=>{
