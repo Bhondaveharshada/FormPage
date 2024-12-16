@@ -53,21 +53,48 @@
 
   <!-- Dynamic Fields -->
   <div formArrayName="additionalFields" class="col-12">
-    <div *ngFor="let field of additionalFields.controls; let i = index" [formGroupName]="i" class="mb-3">
-      <label class="form-label fw-bold">Additional Field {{ i + 1 }}</label>
-      <input
-        type="text"
-        class="form-control"
-        formControlName="value"
-        placeholder="Enter additional field value"
-      />
-      <div class="text-danger mt-1">
-        <span *ngIf="field.get('value')?.hasError('required') && field.get('value')?.touched">
-          This field is required!
-        </span>
+    <div
+      *ngFor="let field of additionalFields.controls; let i = index"
+      [formGroupName]="i"
+      class="mb-3 row align-items-center"
+    >
+      <!-- Value Input Field -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Additional Field {{ i + 1 }}</label>
+        <input
+          [type]="field.get('inputType')?.value || 'text'"
+          class="form-control"
+          formControlName="value"
+          placeholder="Enter additional field value"
+        />
+        <div class="text-danger mt-1">
+          <span *ngIf="field.get('value')?.hasError('required') && field.get('value')?.touched">
+            This field is required!
+          </span>
+        </div>
+      </div>
+  
+      <!-- Input Type Dropdown -->
+      <div class="col-md-6">
+        <label class="form-label fw-bold">Field Type</label>
+        <select
+          class="form-select"
+          formControlName="inputType"
+        >
+          <option value="text">Text</option>
+          <option value="number">Number</option>
+          <option value="email">Email</option>
+          <option value="password">Password</option>
+        </select>
+        <div class="text-danger mt-1">
+          <span *ngIf="field.get('inputType')?.hasError('required') && field.get('inputType')?.touched">
+            Please select a field type!
+          </span>
+        </div>
       </div>
     </div>
   </div>
+  
 </div>
 
 
@@ -81,7 +108,7 @@
 <!--     Dynamically Generated Dropdowns 
     <div *ngFor="let field of fields; let i = index" class="row mb-3 align-items-center">
       <div class="col-md-4">
-        <!-- Dropdown for selecting field type 
+         Dropdown for selecting field type 
         <select #dropdown (change)="updateFieldType(i, dropdown.value)" class="form-select">
           <option value="string" [selected]="field === 'string'">String</option>
           <option value="number" [selected]="field === 'number'">Number</option>
@@ -90,7 +117,7 @@
         </select>
       </div>
       <div class="col-md-8">
-        <!-- Display selected type 
+         Display selected type 
         <span>You selected: {{ field }}</span>
       </div>
     </div> -->

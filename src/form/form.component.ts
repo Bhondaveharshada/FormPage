@@ -26,6 +26,9 @@ export class FormComponent implements OnInit {
         title:['',[Validators.required,Validators.minLength(2),Validators.maxLength(10)]],
         additionalFields: this._fb.array([]), // Dynamic fields
       });
+
+     
+
     }
   
     // Getter for additionalFields
@@ -36,7 +39,8 @@ export class FormComponent implements OnInit {
 
     addField(): void {
       const newField = this._fb.group({
-        value: ['', Validators.required], // Add validation as needed
+        value: ['', Validators.required],
+        inputType:['',Validators.required]
       });
       this.additionalFields.push(newField);
     }
