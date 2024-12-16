@@ -1,140 +1,81 @@
-<div class="mt-2 p-3 text-white bg-primary rounded">
-  <h3 class="text-center">Form in Angular</h3>
-</div>
-<br />
-<form
-  [formGroup]="userForm"
-  class="container row g-4 d-flex justify-content-center align-items-center"
->
-  <!-- Title Field -->
-  <div class="col-md-6">
-  <div >
-    <label class="form-label fw-bold">Title</label>
-    <input
-      type="text"
-      class="form-control"
-      formControlName="title"
-      placeholder="Enter a title"
-    />
-    <div class="text-danger mt-1">
-      <span *ngIf="userForm.controls['title'].hasError('required') && userForm.controls['title'].touched">
-        Title is required!
-      </span>
-      <span *ngIf="userForm.controls['title'].hasError('minlength')">
-        Title should be at least 5 characters long.
-      </span>
-      <span *ngIf="userForm.controls['title'].hasError('maxlength')">
-        Title should be less than 50 characters.
-      </span>
+<div class="container">
+  <form (ngSubmit)="onSave()" #userForm="ngForm">
+    <!-- Title Field -->
+    <div class="mb-3">
+      <label for="title" class="form-label fw-bold">Form Title</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        class="form-control"
+        [(ngModel)]="title"
+        required
+        minlength="2"
+        placeholder="Enter form title"
+      />
+      <div *ngIf="!title || title.length < 2" class="text-danger mt-1">
+        Title is required at least one word.
+      </div>
     </div>
-  </div>
 
-  <!-- Question Field -->
-<!--   <div class="col-md-6">
-    <label class="form-label fw-bold">Question</label>
-    <textarea
-      class="form-control"
-      rows="4"
-      formControlName="question"
-      placeholder="Enter your question"
-    ></textarea>
-    <div class="text-danger mt-1">
-      <span *ngIf="userForm.controls['question'].hasError('required') && userForm.controls['question'].touched">
-        Question is required!
-      </span>
-      <span *ngIf="userForm.controls['question'].hasError('minlength')">
-        Question should be at least 10 characters long.
-      </span>
-      <span *ngIf="userForm.controls['question'].hasError('maxlength')">
-        Question should be less than 200 characters.
-      </span>
-    </div>
-  </div> -->
-
-  <!-- Dynamic Fields -->
-  <div formArrayName="additionalFields" class="col-12">
-    <div
-      *ngFor="let field of additionalFields.controls; let i = index"
-      [formGroupName]="i"
-      class="mb-3 row align-items-center"
-    >
-      <!-- Value Input Field -->
-      <div class="col-md-6">
-        <label class="form-label fw-bold">Additional Field {{ i + 1 }}</label>
-        <input
-          [type]="field.get('inputType')?.value || 'text'"
-          class="form-control"
-          formControlName="value"
-          placeholder="Enter additional field value"
-        />
-        <div class="text-danger mt-1">
-          <span *ngIf="field.get('value')?.hasError('required') && field.get('value')?.touched">
+    <!-- Additional Fields -->
+    <div class="mb-3" *ngFor="let field of additionalFields; let i = index">
+      <div class="row">
+        <!-- Field Name Input -->
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Field Name {{ i + 1 }}</label>
+          <input
+            type="text"
+            [(ngModel)]="field.value"
+            [name]="'value_' + i"
+            class="form-control"
+            placeholder="Enter additional field value"
+            required
+          />
+          <div *ngIf="!field.value" class="text-danger mt-1">
             This field is required!
-          </span>
+          </div>
         </div>
-      </div>
-  
-      <!-- Input Type Dropdown -->
-      <div class="col-md-6">
-        <label class="form-label fw-bold">Field Type</label>
-        <select
-          class="form-select"
-          formControlName="inputType"
-        >
-          <option value="text">Text</option>
-          <option value="number">Number</option>
-          <option value="email">Email</option>
-          <option value="password">Password</option>
-        </select>
-        <div class="text-danger mt-1">
-          <span *ngIf="field.get('inputType')?.hasError('required') && field.get('inputType')?.touched">
+
+        <!-- Input Type Dropdown -->
+        <div class="col-md-6">
+          <label class="form-label fw-bold">Input Type</label>
+          <select
+            [(ngModel)]="field.inputType"
+            [name]="'inputType_' + i"
+            class="form-select"
+            required
+          >
+            <option value="text">Text</option>
+            <option value="number">Number</option>
+            <option value="email">Email</option>
+            <option value="password">Password</option>
+          </select>
+          <div *ngIf="!field.inputType" class="text-danger mt-1">
             Please select a field type!
-          </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  
-</div>
 
-
-  <!-- Add Field Button -->
-  <div class="container">
     <!-- Add Field Button -->
-    <div class="col-12 text-center my-3">
-      <button type="button" class="btn btn-primary" (click)="addField()">Add Field</button>
+    <div class="text-center my-3">
+      <button type="button" class="btn btn-primary" (click)="addField()">
+        Add Field
+      </button>
     </div>
-  
-<!--     Dynamically Generated Dropdowns 
-    <div *ngFor="let field of fields; let i = index" class="row mb-3 align-items-center">
-      <div class="col-md-4">
-         Dropdown for selecting field type 
-        <select #dropdown (change)="updateFieldType(i, dropdown.value)" class="form-select">
-          <option value="string" [selected]="field === 'string'">String</option>
-          <option value="number" [selected]="field === 'number'">Number</option>
-          <option value="email" [selected]="field === 'email'">Email</option>
-          <option value="password" [selected]="field === 'password'">Password</option>
-        </select>
-      </div>
-      <div class="col-md-8">
-         Display selected type 
-        <span>You selected: {{ field }}</span>
-      </div>
-    </div> -->
+
+    <!-- Save Button -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-success" [disabled]="!title || userForm.invalid">
+        Save Form
+      </button>
+    </div>
+  </form>
+
+  <!-- Form Link -->
+  <div *ngIf="formLink" class="mt-3">
+    <p>Form Link:</p>
+    <a [href]="formLink">{{ formLink }}</a>
   </div>
-  
-  <div class="col-md-12 text-center">
-    <button class="btn btn-primary px-5" type="submit" (click)="onSave()">
-      Generate Link
-    </button>
-  </div>
-</form>
-  
-  <!-- Generated Link Section -->
-  <div class="mt-4 text-center">
-    <p *ngIf="formLink" class="text-success">
-      Share this link:
-      <a [href]="formLink"  class="text-decoration-none">{{ formLink }}</a>
-    </p>
-  </div>
-  
+</div>

@@ -26,7 +26,7 @@
       >
         <label class="form-label fw-bold">  {{ field['value'] }}</label>
         <input
-          type="text"
+          [type]="field['inputType']"
           class="form-control"
           formControlName="value"
           placeholder="Enter a value"
