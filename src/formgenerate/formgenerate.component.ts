@@ -54,7 +54,7 @@ export class FormgenerateComponent {
           additionalFields: this.fb.array(
             this.formData.additionalFields.map((field: any) =>
               this.fb.group({
-                value: [field.value, Validators.required], // Pre-fill values
+                value: [field.value, this.getValidators(field.inputType)], // Pre-fill values
                 inputType: [field.inputType, Validators.required], 
               }) 
             )
@@ -69,7 +69,20 @@ export class FormgenerateComponent {
   }
 
   
-  
+  getValidators(inputType: string) {
+    switch (inputType) {
+      case 'email':
+        return [Validators.required, Validators.email];
+      case 'number':
+        return [Validators.required, Validators.pattern(/^[0-9]+$/)];
+      case 'text':
+        return [Validators.required, Validators.minLength(3)];
+      case 'password':
+        return [Validators.required, Validators.minLength(6)];
+      default:
+        return [Validators.required]; // Default validator
+    }
+  }
   
 
     // Getter for additional fields
