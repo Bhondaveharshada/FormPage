@@ -1,25 +1,39 @@
 <div class="container mt-4">
   <h1 class="text-center card-title">{{ formData.title }}</h1>
   <form *ngIf="previewForm" [formGroup]="previewForm" class="row g-4">
-    <!-- Title -->
-   
-
-    <!-- Dynamic Fields -->
     <div formArrayName="additionalFields" class="w-100">
       <div
-        *ngFor="let field of fields; let i = index"
+        *ngFor="let field of additionalFields.controls; let i = index"
         [formGroupName]="i"
         class="col-md-8 card-body"
       >
-      <label class="form-label fw-bold">{{ field['value'] }}</label>
-      <input
-        [type]="field['inputType']"
-        class="form-control"
-        formControlName="value"
-        [placeholder]="'Enter a value'"
-      
-      />
-      
+        <label class="form-label fw-bold">
+          {{ fields[i]['value'] }}
+        </label>
+        <input
+          [type]="fields[i]['inputType']"
+          class="form-control"
+          formControlName="value"
+          [placeholder]="'Enter a value'"
+        />
+        
+        <!-- Error Messages -->
+        <div *ngIf="field.get('value')?.touched && field.get('value')?.invalid" class="text-danger">
+          <div *ngIf="field.get('value')?.errors?.['required']">
+            This field is required.
+          </div>
+          <div *ngIf="field.get('value')?.errors?.['email']">
+            Please enter a valid email address.
+          </div>
+          <div *ngIf="field.get('value')?.errors?.['pattern']">
+            Only numeric values are allowed.
+          </div>
+          <div *ngIf="field.get('value')?.errors?.['minlength']">
+            Minimum length required: 
+            {{ field.get('value')?.errors?.['minlength']?.requiredLength }} characters.
+          </div>
+         
+        </div>
       </div>
     </div>
 
