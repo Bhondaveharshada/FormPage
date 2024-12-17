@@ -29,5 +29,22 @@ export class FormService {
   {
     return this.http.get(`${environment.api}/getformfields/${id}`);
   }
-     
+
+  getAllFormFields(){
+    return this.http.get(`${environment.api}/getallformsFields`)
+  }
+  
+  updateFormFields(id:any,data:any){
+    const {title,addformfields} = data
+    return this.http.patch(`${environment.api}/updateFormFields/${id}`,{data})
+  }
+
+  saveFormLink(id:any,formLink:any){
+    console.log('Sending data to server:', formLink);
+    return this.http.put(`${environment.api}/savelinktoFormFields/${id}`,{formLink})
+  }
+
+  deleteFormFields(id: any) {
+    return this.http.delete(`${environment.api}/deleteformfields/${id}`);
+  }
 }
