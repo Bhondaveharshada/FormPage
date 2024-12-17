@@ -8,7 +8,7 @@
   </div>
 
   <!-- Create/Edit Form Section -->
-  <div *ngIf="showForm" class="card mb-4 shadow">
+  <div *ngIf="showForm" class="container card mb-4 shadow">
     <div class="card-body">
       <h3>{{ isEditing ? 'Edit Form' : 'Create New Form' }}</h3>
       <form (ngSubmit)="onSave()" #userForm="ngForm">
@@ -64,13 +64,28 @@
         </div>
 
         <!-- Add Field & Buttons -->
-        <div class="d-flex justify-content-between mt-3">
+       <!--  <div class="d-flex justify-content-between mt-3">
           <button type="button" class="btn btn-primary" (click)="addField()">
             Add Field
           </button>
           <button type="button" class="btn btn-secondary" (click)="onSave ()">
             Generate Link
           </button>
+        </div> -->
+        <div class="d-flex justify-content-center my-3">
+          <button type="button" class="btn btn-primary" (click)="addField()">
+            Add Field
+          </button>
+        
+          <button
+            type="submit"
+            class="btn btn-success ms-3"
+            [disabled]="!title || userForm.invalid"
+            (click)="onSave ()"
+          >
+            Save Form
+          </button>
+          
         </div>
       </form>
 
@@ -102,7 +117,7 @@
             </li>
           </ul>
           <p>{{form.formLink}}</p> 
-          <div class="d-flex justify-content-between">
+          <div class="d-flex justify-content-end">
             <button class="btn btn-warning btn-sm" (click)="editForm(form)">
               Edit
             </button>
