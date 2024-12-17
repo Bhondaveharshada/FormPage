@@ -82,6 +82,7 @@ export class FormgenerateComponent {
       this.formService.addform(this.previewForm.value, this.formfieldId).subscribe({
         next:(res:any)=>{
           console.log("stored successfully",res.result);
+          alert("Form Submitted Successfully!!!")
           const id = res.result._id
           this.formService.getForm(id).subscribe({
             next:(res:any)=>{
