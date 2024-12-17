@@ -27,6 +27,12 @@ export class FormComponent implements OnInit {
     this.additionalFields.push({ value: '', inputType: 'text' });
   }
 
+  deleteField(index: number): void {
+    if (index >= 0 && index < this.additionalFields.length) {
+      this.additionalFields.splice(index, 1); // Remove the field at the specified index
+    }
+  }
+
   updateFieldType(index: number, type: string): void {
     // Update the selected input type for a specific field
     this.additionalFields[index].inputType = type;
