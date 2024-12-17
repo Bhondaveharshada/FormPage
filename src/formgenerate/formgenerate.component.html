@@ -11,13 +11,15 @@
         [formGroupName]="i"
         class="col-md-8 card-body"
       >
-        <label class="form-label fw-bold">  {{ field['value'] }}</label>
-        <input
-          [type]="field['inputType']"
-          class="form-control"
-          formControlName="value"
-          placeholder="Enter a value"
-        />
+      <label class="form-label fw-bold">{{ field['value'] }}</label>
+      <input
+        [type]="field['inputType']"
+        class="form-control"
+        formControlName="value"
+        [placeholder]="'Enter a value'"
+      
+      />
+      
       </div>
     </div>
 
