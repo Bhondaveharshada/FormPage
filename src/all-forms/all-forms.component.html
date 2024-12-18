@@ -93,7 +93,7 @@
                   {{ field.value }} ({{ field.inputType }})
                 </li>
               </ul>
-              <p>{{ form.formLink }}</p>
+              <a [href]="form.formLink" target="_blank">{{form.formLink}}</a>
               <div class="d-flex justify-content-end">
                 <button
                   class="btn btn-warning btn-sm"
