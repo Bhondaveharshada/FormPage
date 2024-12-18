@@ -54,7 +54,7 @@ export class FormgenerateComponent {
           additionalFields: this.fb.array(
             this.formData.additionalFields.map((field: any) =>
               this.fb.group({
-                value: [field.value, this.getValidators(field.inputType)], // Pre-fill values
+                value: ['', this.getValidators(field.inputType)], // Pre-fill values
                 inputType: [field.inputType, Validators.required], 
               }) 
             )
