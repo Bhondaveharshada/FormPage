@@ -41,11 +41,11 @@ export class AllFormsComponent implements OnInit {
     this.selectedFormId = this.selectedFormId === formId ? null : formId;
   }
 
-  onEdit(form:any){
+  editForm(form:any){
 
   }
 
-  onDelete(id:any){
+  deleteForm(id:any){
     
   }
 }

@@ -1,1 +1,29 @@
-<p>all-forms works!</p>
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4 mb-4" *ngFor="let form of formFields">
+          <div class="card shadow">
+            <div class="card-header d-flex justify-content-between bg-primary text-white">
+              <h5>Title: {{ form.title }}</h5>
+              <small>{{ form.createdAt | date: 'short' }}</small>
+            </div>
+            <div class="card-body">
+              <ul>
+                <li *ngFor="let field of form.additionalFields">
+                  {{ field.value }} ({{ field.inputType }})
+                </li>
+              </ul>
+              <p>{{form.formLink}}</p> 
+              <div class="d-flex justify-content-end">
+                <button class="btn btn-warning btn-sm" (click)="editForm(form)">
+                  Edit
+                </button>
+                <button class="btn btn-danger btn-sm" (click)="deleteForm(form._id)">
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+</div>
