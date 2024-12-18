@@ -55,7 +55,7 @@ export class FormComponent implements OnInit {
 
   // Toggle the form for creating/editing
   toggleCreateForm(): void {
-    this.showForm = !this.showForm;
+   
     this.isEditing = false; // Reset edit mode
    
   }
