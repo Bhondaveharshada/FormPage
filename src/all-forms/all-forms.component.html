@@ -1,5 +1,86 @@
-<div class="container mt-4">
-    <div class="row">
+<div class="container-fluid mt-5">
+    <h2>Forms</h2>
+  
+    <!-- Form Modal -->
+    <div [class.modal-active]="showForm">
+      <div *ngIf="showForm" class="container card mb-4 shadow">
+        <div class="card-body">
+          <h3>{{ isEditing ? 'Edit Form' : 'Create New Form' }}</h3>
+          <form (ngSubmit)="onSave($event)" #userForm="ngForm">
+            <!-- Form Title -->
+            <div class="mb-3">
+              <label for="title" class="form-label fw-bold">Form Title</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                class="form-control"
+                [(ngModel)]="title"
+                required
+                placeholder="Enter form title"
+              />
+            </div>
+  
+            <!-- Dynamic Additional Fields -->
+            <div class="mb-3" *ngFor="let field of additionalFields; let i = index">
+              <div class="row g-2">
+                <div class="col-md-6">
+                  <input
+                    type="text"
+                    [(ngModel)]="field.value"
+                    [name]="'value_' + i"
+                    class="form-control"
+                    placeholder="Field Name"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <select
+                    [(ngModel)]="field.inputType"
+                    [name]="'inputType_' + i"
+                    class="form-select"
+                  >
+                    <option value="text">Text</option>
+                    <option value="number">Number</option>
+                    <option value="email">Email</option>
+                    <option value="password">Password</option>
+                  </select>
+                </div>
+                <div class="col-md-2">
+                  <button
+                    type="button"
+                    class="btn btn-danger"
+                    (click)="deleteField(i)"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Add Field & Save Buttons -->
+            <div class="d-flex justify-content-center my-3">
+              <button type="button" class="btn btn-primary" (click)="addField()">
+                Add Field
+              </button>
+  
+              <button
+                type="submit"
+                class="btn ms-3"
+                [ngClass]="isEditing ? 'btn-warning' : 'btn-success'"
+                [disabled]="!title || userForm.invalid"
+              >
+                {{ isEditing ? 'Update Form' : 'Save Form' }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+    <!-- Forms List -->
+    <div class="container mt-5">
+      <div class="row">
         <div class="col-md-4 mb-4" *ngFor="let form of formFields">
           <div class="card shadow">
             <div class="card-header d-flex justify-content-between bg-primary text-white">
@@ -12,12 +93,18 @@
                   {{ field.value }} ({{ field.inputType }})
                 </li>
               </ul>
-              <p>{{form.formLink}}</p> 
+              <p>{{ form.formLink }}</p>
               <div class="d-flex justify-content-end">
-                <button class="btn btn-warning btn-sm" (click)="editForm(form)">
+                <button
+                  class="btn btn-warning btn-sm"
+                  (click)="editForm(form)"
+                >
                   Edit
                 </button>
-                <button class="btn btn-danger btn-sm" (click)="deleteForm(form._id)">
+                <button
+                  class="btn btn-danger btn-sm"
+                  (click)="deleteForm(form._id)"
+                >
                   Delete
                 </button>
               </div>
@@ -25,5 +112,6 @@
           </div>
         </div>
       </div>
-    
-</div>
+    </div>
+  </div>
+  

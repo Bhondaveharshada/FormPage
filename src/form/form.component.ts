@@ -115,8 +115,8 @@ export class FormComponent implements OnInit {
           console.log('formlink form onsave fun', typeof this.formLink, this.formLink);
           const stringLink = `${this.formLink}`;
           console.log('String link', String(stringLink));
-          this.fetchForms();
           this.saveLink();
+          this.fetchForms();
         },
         error: (err: any) => console.error('Error saving form:', err),
       });
