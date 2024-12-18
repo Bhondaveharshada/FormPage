@@ -39,7 +39,7 @@ export class FormService {
     return this.http.patch(`${environment.api}/updateFormFields/${id}`,{data})
   }
 
-  saveFormLink(id:any,formLink:any){
+  saveFormLink(id:any,formLink:string){
     console.log('Sending data to server:', formLink);
     return this.http.put(`${environment.api}/savelinktoFormFields/${id}`,{formLink})
   }

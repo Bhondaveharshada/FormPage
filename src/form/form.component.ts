@@ -19,7 +19,7 @@ export class FormComponent implements OnInit {
   // Form data for creation/editing
   title: string = '';
   additionalFields: { value: string; inputType: string }[] = [];
-  formLink: any | null = null;
+  formLink: any = '';
   isLinkSaved = false;
   // Store all forms fetched from the database
   formFields: any[] = [];
@@ -55,8 +55,13 @@ export class FormComponent implements OnInit {
 
   // Toggle the form for creating/editing
   toggleCreateForm(): void {
+    if(this.showForm){
+      this.resetForm()
+    }else{
+      this.showForm = true
+    }
+    this.isEditing = false; 
    
-    this.isEditing = false; // Reset edit mode
    
   }
 
@@ -75,17 +80,19 @@ export class FormComponent implements OnInit {
       value: field.value,
       inputType: field.inputType,
     }));
+
   }
 
   // Save or Update form data
-  onSave(): void {
+  onSave(event: Event): void {
+    event.preventDefault(); // Prevent the default form submission behavior
+  
     const formId = new Date().getTime();
     const formData = {
       title: this.title,
       additionalFields: this.additionalFields,
     };
-    localStorage.setItem(`form_${formId}`, JSON.stringify(formData));
-
+  
     if (this.isEditing && this.formIdToEdit) {
       // Update existing form
       this.formService.updateFormFields(this.formIdToEdit, formData).subscribe({
@@ -102,24 +109,23 @@ export class FormComponent implements OnInit {
       this.formService.addFormFields(formData, formId).subscribe({
         next: (res: any) => {
           console.log('Form saved successfully:', res);
-          const id = res.result._id; 
-          this._id = id
-          this.formLink =`${window.location.origin}/form/${id}/${formId}`;
-          console.log("formlink form onsave fun", typeof this.formLink, this.formLink);
-          const stringLink = `${this.formLink}`
-          console.log("String link",String(stringLink));
+          const id = res.result._id;
+          this._id = id;
+          this.formLink = `${window.location.origin}/form/${id}/${formId}`;
+          console.log('formlink form onsave fun', typeof this.formLink, this.formLink);
+          const stringLink = `${this.formLink}`;
+          console.log('String link', String(stringLink));
           this.fetchForms();
-          this.saveLink()
-         
+          this.saveLink();
         },
         error: (err: any) => console.error('Error saving form:', err),
       });
     }
   }
-
+  
   saveLink(){
     if (this.formLink) {
-     
+      if (this.isLinkSaved) return; 
       
       this.formService.saveFormLink(this._id, this.formLink ).subscribe({
         next: (res:any) => {
