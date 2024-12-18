@@ -55,8 +55,13 @@ export class FormComponent implements OnInit {
 
   // Toggle the form for creating/editing
   toggleCreateForm(): void {
-    this.showForm = !this.showForm;
-    this.isEditing = false; // Reset edit mode
+    if(this.showForm){
+      this.resetForm()
+    }else{
+      this.showForm = true
+    }
+    this.isEditing = false; 
+   
    
   }
 
@@ -75,6 +80,7 @@ export class FormComponent implements OnInit {
       value: field.value,
       inputType: field.inputType,
     }));
+
   }
 
   // Save or Update form data
@@ -93,6 +99,7 @@ export class FormComponent implements OnInit {
           console.log('Form updated successfully:', res);
           this.fetchForms();
           this.resetForm();
+          
         },
         error: (err: any) => console.error('Error updating form:', err),
       });

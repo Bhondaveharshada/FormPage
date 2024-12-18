@@ -78,13 +78,14 @@
           </button>
         
           <button
-            type="submit"
-            class="btn btn-success ms-3"
-            [disabled]="!title || userForm.invalid"
-            (click)="onSave ()"
-          >
-            Save Form
-          </button>
+              type="submit"
+              class="btn ms-3"
+              [ngClass]="isEditing ? 'btn-warning' : 'btn-success'"
+             [disabled]="!title || userForm.invalid"
+             (click)="onSave()"
+>
+  {{ isEditing ? 'Update Form' : 'Save Form' }}
+</button>
           
         </div>
       </form>
