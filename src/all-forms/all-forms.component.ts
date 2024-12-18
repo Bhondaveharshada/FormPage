@@ -134,6 +134,10 @@ onSave(event: Event): void {
   }
 }
 
+onCancel(): void {
+  this.resetForm();
+}
+
 deleteForm(id:any){
   if (confirm('Are you sure you want to delete this form?')) {
     this.formService.deleteFormFields(id).subscribe({
