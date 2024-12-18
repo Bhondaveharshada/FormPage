@@ -66,7 +66,7 @@ export class FormComponent implements OnInit {
   }
 
   // Populate form data for editing
-  editForm(form: any): void {
+/*   editForm(form: any): void {
     this.showForm = true; // Show the form section
     this.isEditing = true; // Set to edit mode
     this.formIdToEdit = form._id; // Store the form ID being edited
@@ -81,18 +81,16 @@ export class FormComponent implements OnInit {
       inputType: field.inputType,
     }));
 
-  }
+  } */
 
   // Save or Update form data
   onSave(event: Event): void {
-    event.preventDefault(); // Prevent the default form submission behavior
-  
-    const formId = new Date().getTime();
+     event.preventDefault(); // Prevent the default form submission behavior
     const formData = {
       title: this.title,
       additionalFields: this.additionalFields,
     };
-  
+  /*
     if (this.isEditing && this.formIdToEdit) {
       // Update existing form
       this.formService.updateFormFields(this.formIdToEdit, formData).subscribe({
@@ -103,7 +101,7 @@ export class FormComponent implements OnInit {
         },
         error: (err: any) => console.error('Error updating form:', err),
       });
-    } else {
+    } else { */
       // Save new form
       const formId = new Date().getTime();
       this.formService.addFormFields(formData, formId).subscribe({
@@ -121,7 +119,7 @@ export class FormComponent implements OnInit {
         error: (err: any) => console.error('Error saving form:', err),
       });
     }
-  }
+
   
   saveLink(){
     if (this.formLink) {
