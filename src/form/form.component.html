@@ -2,16 +2,17 @@
   <!-- Button to toggle Create Form -->
   <div class="d-flex justify-content-between align-items-center mb-4 ms-6">
     <h2>Forms</h2>
-    <button class="btn btn-primary" (click)="toggleCreateForm()">
+    <button class="btn btn-primary"  (click)="toggleCreateForm()">
       {{ showForm ? 'Close Form' : 'Create New Form' }}
     </button>
   </div>
 
   <!-- Create/Edit Form Section -->
+  <div [class.modal-active]="showForm">
   <div *ngIf="showForm" class="container card mb-4 shadow">
     <div class="card-body">
       <h3>{{ isEditing ? 'Edit Form' : 'Create New Form' }}</h3>
-      <form (ngSubmit)="onSave()" #userForm="ngForm">
+      <form (ngSubmit)="onSave($event)" #userForm="ngForm">
         <!-- Form Title -->
         <div class="mb-3">
           <label for="title" class="form-label fw-bold">Form Title</label>
@@ -78,14 +79,15 @@
           </button>
         
           <button
-              type="submit"
-              class="btn ms-3"
-              [ngClass]="isEditing ? 'btn-warning' : 'btn-success'"
-             [disabled]="!title || userForm.invalid"
-             (click)="onSave()"
->
-  {{ isEditing ? 'Update Form' : 'Save Form' }}
-</button>
+          type="button"
+          class="btn ms-3"
+          [ngClass]="isEditing ? 'btn-warning' : 'btn-success'"
+          [disabled]="!title || userForm.invalid"
+          (click)="onSave($event)"
+        >
+          {{ isEditing ? 'Update Form' : 'Save Form' }}
+        </button>
+        
           
         </div>
       </form>
@@ -100,6 +102,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 
 
@@ -117,7 +120,7 @@
               {{ field.value }} ({{ field.inputType }})
             </li>
           </ul>
-          <p>{{form.formLink}}</p> 
+          <a [href]="form.formLink" target="_blank">{{form.formLink}}</a>
           <div class="d-flex justify-content-end">
             <button class="btn btn-warning btn-sm" (click)="editForm(form)">
               Edit
