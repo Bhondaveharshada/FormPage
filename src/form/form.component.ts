@@ -18,7 +18,7 @@ export class FormComponent implements OnInit {
 
   // Form data for creation/editing
   title: string = '';
-  additionalFields: { value: string; inputType: string }[] = [];
+  additionalFields: { value: string; inputType: string, isrequired:string }[] = [];
   formLink: any = '';
   isLinkSaved = false;
   // Store all forms fetched from the database
@@ -43,7 +43,7 @@ export class FormComponent implements OnInit {
 
   // Add a new dynamic field
   addField(): void {
-    this.additionalFields.push({ value: '', inputType: 'text' });
+    this.additionalFields.push({ value: '', inputType: 'text', isrequired:'' });
   }
 
   // Delete a specific field

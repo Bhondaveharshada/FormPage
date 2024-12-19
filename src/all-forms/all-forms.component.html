@@ -99,7 +99,8 @@
             <div class="card-body">
               <ul>
                 <li *ngFor="let field of form.additionalFields">
-                  {{ field.value }} ({{ field.inputType }})
+                  {{ field.value }} ({{ field.inputType }}) 
+                  <strong *ngIf="field.isrequired === 'required'">*</strong>
                 </li>
               </ul>
               <a [href]="form.formLink" target="_blank">{{form.formLink}}</a>

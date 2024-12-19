@@ -30,7 +30,7 @@
         <!-- Dynamic Additional Fields -->
         <div class="mb-3" *ngFor="let field of additionalFields; let i = index">
           <div class="row g-2">
-            <div class="col-md-6">
+            <div class="col-md-3">
               <input
                 type="text"
                 [(ngModel)]="field.value"
@@ -40,7 +40,7 @@
                 required
               />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <select
                 [(ngModel)]="field.inputType"
                 [name]="'inputType_' + i"
@@ -52,7 +52,17 @@
                 <option value="password">Password</option>
               </select>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
+              <select
+                [(ngModel)]="field.isrequired"
+                [name]="'isrequired_' + i"
+                class="form-select"
+              >
+                <option value="required">Required</option>
+                <option value="optional">Optional</option>
+              </select>
+            </div>
+            <div class="col-md-3">
               <button
                 type="button"
                 class="btn btn-danger"

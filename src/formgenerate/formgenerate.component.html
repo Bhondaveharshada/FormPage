@@ -8,7 +8,7 @@
         class="col-md-8 card-body"
       >
         <label class="form-label fw-bold">
-          {{ fields[i]['value'] }}
+          {{ fields[i]['value'] }} <strong *ngIf="fields[i]['isrequired'] === 'required'">*</strong>
         </label>
         <input
           [type]="fields[i]['inputType']"

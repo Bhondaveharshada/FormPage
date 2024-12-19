@@ -97,9 +97,13 @@ export class FormgenerateComponent {
           console.log("stored successfully",res.result);
           alert("Form Submitted Successfully!!!")
           const id = res.result._id
-          this.formService.getForm(id).subscribe({
-            next:(res:any)=>{
-              console.log("formdata",res);
+          console.log("Id",id);
+          this.formService.getUserForm(id).subscribe({
+            next :(res:any)=>{
+              console.log("userForm",res.result);
+              
+            },error:(err)=>{
+              console.log("error fetching userForm",err);
               
             }
           })
