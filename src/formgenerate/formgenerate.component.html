@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<div  *ngIf="!userFormData"  class="container mt-4">
   <h1 class="text-center card-title">{{ formData.title }}</h1>
   <form *ngIf="previewForm" [formGroup]="previewForm" class="row g-4">
     <div formArrayName="additionalFields" class="w-100">
@@ -48,4 +48,12 @@
       </button>
     </div>
   </form>
+</div>
+
+<div *ngIf="userFormData" class="form-preview">
+  <h2>{{ formData.title }}</h2>
+  <div *ngFor="let field of userFormData" class="form-field">
+    <label>{{ field.label }}</label>
+    <p>{{ field.value }}</p>
+  </div>
 </div>
