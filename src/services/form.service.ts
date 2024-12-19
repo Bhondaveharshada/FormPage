@@ -16,8 +16,8 @@ export class FormService {
    return this.http.post(`${environment.api}/addform`,payload)
   }
 
-  getForm(id:any){
-    return this.http.get(`${environment.api}/getForm`,id)
+  getUserForm(id:any){
+    return this.http.get(`${environment.api}/getUserForm/${id}`)
   }
 
   addFormFields(data:any, formId:any){

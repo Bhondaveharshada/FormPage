@@ -89,33 +89,34 @@ export class FormgenerateComponent {
     get additionalFields(): FormArray {
       return this.previewForm?.get('additionalFields') as FormArray;
     }
-    onSubmit() {
-      if (this.previewForm?.valid) {
-          this.formService.addform(this.previewForm.value, this.formfieldId).subscribe({
-              next: (res: any) => {
-                  console.log("Stored successfully", res.result);
-                  alert("Form Submitted Successfully!!!");
-  
-                  // Use the _id from the response to fetch the form data
-                  const id = res.result._id;
-                  this.formService.getForm(id).subscribe({
-                      next: (formRes: any) => {
-                          console.log("Form data:", formRes.form); // Access the `form` object here
-                      },
-                      error: (err: any) => {
-                          console.error("Error fetching form data:", err);
-                      },
-                  });
-              },
-              error: (err: any) => {
-                  console.log("Error submitting form:", err);
-              },
-          });
-  
-          console.log("Submitted Form Data:", this.previewForm.value);
-      } else {
-          console.log("Form is invalid");
-      }
+
+  onSubmit() {
+    if (this.previewForm?.valid) {
+      this.formService.addform(this.previewForm.value, this.formfieldId).subscribe({
+        next:(res:any)=>{
+          console.log("stored successfully",res.result);
+          alert("Form Submitted Successfully!!!")
+          const id = res.result._id
+          console.log("Id",id);
+          this.formService.getUserForm(id).subscribe({
+            next :(res:any)=>{
+              console.log("userForm",res.result);
+              
+            },error:(err)=>{
+              console.log("error fetching userForm",err);
+              
+            }
+          })
+
+          
+        },error :(err:any)=>{
+          console.log("errrorrr");
+        }  
+        }) ;
+      console.log("Submitted Form Data:", this.previewForm.value);
+    } else {
+      console.log("Form is invalid");
+    }
   }
   
 }
