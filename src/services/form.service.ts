@@ -17,7 +17,7 @@ export class FormService {
   }
 
   getForm(id:any){
-    return this.http.get(`${environment.api}/getFrom`,id)
+    return this.http.get(`${environment.api}/getForm`,id)
   }
 
   addFormFields(data:any, formId:any){
