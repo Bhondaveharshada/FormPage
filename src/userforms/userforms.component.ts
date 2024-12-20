@@ -3,54 +3,58 @@ import { FormService } from '../services/form.service';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
+import { ObjectKeysPipe } from '../pipes/object-keys.pipe';
+
 @Component({
   selector: 'app-userforms',
   standalone: true,
-  imports: [RouterModule,CommonModule,],
+  imports: [RouterModule,CommonModule ,ObjectKeysPipe],
   templateUrl: './userforms.component.html',
-  styleUrl: './userforms.component.css'
+  styleUrl: './userforms.component.css',
+  providers: [ObjectKeysPipe]
 })
 export class UserformsComponent implements OnInit {
   formTitle:any
-  constructor(private formservice:FormService, private route:ActivatedRoute){}
+  mappedFields: any[] = []; 
+  constructor(private formservice:FormService, private route:ActivatedRoute, private objectkeys: ObjectKeysPipe){}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     console.log(id);
+    this.formservice.fetchUserForms(id).subscribe({
+      next: (res: any) => {
+        const targetId = res.result;
+        const fields = res.Fields; // Form details
+        this.formTitle = fields.title; // Extract form title
+        console.log('Form Title:', this.formTitle);
     
-this.formservice.fetchUserForms(id).subscribe({
-  next: (res: any) => {
-    const targetId = res.result; // Assuming `targetId` is a field in the response
-    const fields = res.Fields; 
-    this.formTitle = res.Fields.title// Fields from response
-    console.log('targetId:', targetId);
-    console.log('fields:', fields);
-
-    // Initialize an object to store the mapping
-    const mappedFields: Record<string, any> = {};
-
-    for (let item of res.result) {
-      console.log("ids:", item._id);
-      console.log("additionalFields:", item.additionalFields);
-
-      // Map each `item._id` to its `additionalFields`
-      mappedFields[item._id] = {
-        additionalFields: item.additionalFields,
-        fieldDetails: fields, // Add the `fields` details if needed
-      };
-    }
-
-    console.log("Mapped Fields:", mappedFields);
-
-    // You can now store `mappedFields` in a variable or use it further
-  },
-  error: (err) => {
-    console.log(err);
+        const mappedFields: any[] = []; // Array to hold the mapped data
+    
+        // Loop through all form entries in the result
+        for (let item of res.result) {
+          const keyValuePairs: Record<string, any> = {}; // Object to hold key-value pairs for this form
+    
+          // Map additionalFields values
+          fields.additionalFields.forEach((field: any, index: number) => {
+            const key = field.value; // Field name (key)
+            const value = item.additionalFields[index]?.value || 'N/A'; // Field value
+            keyValuePairs[key] = value; // Map the key to its value
+          });
+    
+          // Add this form's data to the array
+          mappedFields.push({
+            formId: item._id,
+            keyValuePairs: keyValuePairs,
+          });
+        }
+    
+        this.mappedFields = mappedFields; // Store the mapped data in a variable for display
+        console.log('Mapped Fields:', this.mappedFields);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+          
   }
-});
-
-
-    }
-      
-  }
-
+}
