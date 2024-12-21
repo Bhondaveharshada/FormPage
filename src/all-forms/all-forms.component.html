@@ -91,37 +91,81 @@
     <div class="container mt-5">
       <div class="row">
         <div class="col-md-4 mb-4" *ngFor="let form of formFields">
-          <div class="card shadow">
-            <div class="card-header d-flex justify-content-between bg-primary text-white">
-              <h5>Title: {{ form.title }}</h5>
+          <div
+            class="card card-static"
+            [style.height]="'200px'"
+            (click)="openModal(form)"
+            style="cursor: pointer; border: 1px solid #ccc; border-radius: 5px;"
+          >
+            <div class="card-header d-flex justify-content-between">
+              <h5>{{ form.title }}</h5>
               <small>{{ form.createdAt | date: 'short' }}</small>
             </div>
-            <div class="card-body">
+            
+            <a
+              [href]="form.formLink"
+              target="_blank"
+              (click)="stopEvent($event)"
+              style="cursor: pointer; text-decoration: underline;"
+              class="link-style"
+            >
+              {{ form.formLink }}
+            </a>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Bootstrap Modal -->
+      <div
+        class="modal fade"
+        id="formDetailsModal"
+        tabindex="-1"
+        aria-labelledby="formDetailsModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="formDetailsModalLabel">
+                {{ selectedForm?.title }}
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
               <ul>
-                <li *ngFor="let field of form.additionalFields">
-                  {{ field.value }} ({{ field.inputType }}) 
+                <li *ngFor="let field of selectedForm?.additionalFields">
+                  {{ field.value }} ({{ field.inputType }})
                   <strong *ngIf="field.isrequired === 'required'">*</strong>
                 </li>
               </ul>
-              <a [href]="form.formLink" target="_blank">{{form.formLink}}</a>
-              <div class="d-flex justify-content-end">
-                <button
-                  class="btn btn-warning btn-sm"
-                  (click)="editForm(form)"
-                >
-                  Edit
-                </button>
-                <button
-                  class="btn btn-danger btn-sm"
-                  (click)="deleteForm(form._id)"
-                >
-                  Delete
-                </button>
-              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                class="btn btn-warning btn-sm"
+                (click)="editForm(selectedForm)"
+                data-bs-dismiss="modal"
+              >
+                Edit
+              </button>
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="deleteForm(selectedForm?._id)"
+                data-bs-dismiss="modal"
+              >
+                Delete
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
+    
+    
+
   </div>
   

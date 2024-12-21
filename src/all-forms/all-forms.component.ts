@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { FormService } from '../services/form.service';
 import { response } from 'express';
 import { CommonModule } from '@angular/common';
+import { BootstrapOptions as bootstrap } from '@angular/core';
+declare var bootstrap :any;
 
 
 @Component({
@@ -46,6 +48,21 @@ export class AllFormsComponent implements OnInit {
       }
     });
   }
+  selectedForm: any = null;
+
+  openModal(form: any): void {
+    this.selectedForm = form;
+    const modalElement = document.getElementById('formDetailsModal');
+    if (modalElement) {
+      const bootstrapModal = new bootstrap.Modal(modalElement);
+      bootstrapModal.show();
+    }
+  }
+  stopEvent(event: Event): void {
+    event.stopPropagation();
+  }
+
+  
 
   // Toggle the display of additional fields
   toggleDetails(formId: string): void {

@@ -108,16 +108,7 @@ export class FormgenerateComponent {
         });
           const id = res.result._id
           console.log("Id",id);
-     /*      this.formService.getUserForm(id).subscribe({
-            next :(res:any)=>{
-              console.log("userForm",res.result);
-              
-            },error:(err)=>{
-              console.log("error fetching userForm",err);
-              
-            }
-          }) */
-         
+   
          this.userFormData = this.processSubmittedData(fields,userform)
          console.log("userformData",this.userFormData);
          
