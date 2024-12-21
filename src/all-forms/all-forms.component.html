@@ -146,6 +146,13 @@
             </div>
             <div class="modal-footer">
               <button
+                class="btn btn-primary btn-sm"
+                (click)="ViewUserForms(selectedForm?._id)"
+                data-bs-dismiss="modal"
+              >
+                View UserForms
+              </button>
+              <button
                 class="btn btn-warning btn-sm"
                 (click)="editForm(selectedForm)"
                 data-bs-dismiss="modal"
