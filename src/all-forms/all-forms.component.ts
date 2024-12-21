@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute,Router, RouterModule } from '@angular/router';
 import { FormService } from '../services/form.service';
 import { response } from 'express';
 import { CommonModule } from '@angular/common';
@@ -13,7 +13,7 @@ declare var bootstrap :any;
 @Component({
   selector: 'app-all-forms',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule, RouterModule],
   templateUrl: './all-forms.component.html',
   styleUrl: './all-forms.component.css'
 })
