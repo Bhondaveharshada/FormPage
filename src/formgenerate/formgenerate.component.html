@@ -30,10 +30,8 @@
             Only numeric values are allowed.
           </div>
           <div *ngIf="field.get('value')?.errors?.['minlength']">
-            Minimum length required: 
-            {{ field.get('value')?.errors?.['minlength']?.requiredLength }} characters.
+            Minimum length required: {{ field.get('value')?.errors?.['minlength']?.requiredLength }} characters.
           </div>
-         
         </div>
       </div>
     </div>

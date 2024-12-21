@@ -95,10 +95,11 @@
     <!-- Forms List -->
     <div class="container mt-5">
       <div class="row">
-        <div class="col-md-4 mb-4" *ngFor="let form of formFields">
+        <div class="col-12 col-sm-6 col-md-3 mb-5" *ngFor="let form of formFields">
           <div
             class="card card-static"
             [style.height]="'200px'"
+            [style.width]="'100%'"
             (click)="openModal(form)"
             style="cursor: pointer; border: 1px solid #ccc; border-radius: 5px;"
           >
@@ -119,6 +120,7 @@
           </div>
         </div>
       </div>
+      
     
       <!-- Bootstrap Modal -->
       <div

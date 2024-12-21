@@ -68,8 +68,9 @@ export class FormComponent implements OnInit {
 
   // Add a new dynamic field
   addField(): void {
-    this.additionalFields.push({ value: '', inputType: 'text', isrequired:'' });
+    this.additionalFields.push({ value: '', inputType: 'text', isrequired: 'optional' });
   }
+  
 
   // Delete a specific field
   deleteField(index: number): void {

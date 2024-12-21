@@ -32,13 +32,18 @@ export class FormgenerateComponent {
     const id = this.route.snapshot.paramMap.get('id');
     this.formfieldId = id
     this.fetchFormFields(id)
-    
-    // Get form data from localStorage
-    // const storedData = localStorage.getItem(`form_${formId}`);
-    // if (storedData) {
-    //   this.formData = JSON.parse(storedData);
-    // Initialize form with retrieved data
-    
+    this.previewForm?.get('additionalFields')?.valueChanges.subscribe((fields: any[]) => {
+      fields.forEach((field, index) => {
+        const fieldControl = (this.previewForm?.get('additionalFields') as FormArray).at(index) as FormGroup;
+  
+        if (field.isrequired === 'required') {
+          fieldControl.get('value')?.setValidators(this.getValidators(field.inputType));
+        } else {
+          fieldControl.get('value')?.clearValidators();
+        }
+        fieldControl.get('value')?.updateValueAndValidity(); // Recalculate validations
+      });
+    });
 
      
   
@@ -57,8 +62,9 @@ export class FormgenerateComponent {
           additionalFields: this.fb.array(
             this.formData.additionalFields.map((field: any) =>
               this.fb.group({
-                value: ['', this.getValidators(field.inputType)], // Pre-fill values
+                value: ['', this.getDynamicValidators(field)], // Pre-fill values
                 inputType: [field.inputType, Validators.required], 
+                isrequired: [field.isrequired]
               }) 
             )
           ),
@@ -86,7 +92,12 @@ export class FormgenerateComponent {
         return [Validators.required]; // Default validator
     }
   }
-  
+  getDynamicValidators(field: any) {
+    if (field.isrequired === 'required') {
+      return this.getValidators(field.inputType); // Apply validators if 'required'
+    }
+    return []; // No validators if 'optional'
+  }
 
     // Getter for additional fields
     get additionalFields(): FormArray {
