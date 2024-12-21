@@ -46,6 +46,7 @@ export class AllFormsComponent implements OnInit {
       }
     });
   }
+  
 
   // Toggle the display of additional fields
   toggleDetails(formId: string): void {

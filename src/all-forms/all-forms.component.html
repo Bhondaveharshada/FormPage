@@ -91,19 +91,22 @@
     <div class="container mt-5">
       <div class="row">
         <div class="col-md-4 mb-4" *ngFor="let form of formFields">
-          <div class="card shadow">
-            <div class="card-header d-flex justify-content-between bg-primary text-white">
+          <div class="card card-static">
+            
+            <div class="card-header d-flex justify-content-between ">
               <h5>Title: {{ form.title }}</h5>
               <small>{{ form.createdAt | date: 'short' }}</small>
             </div>
             <div class="card-body">
               <ul>
+                <a [href]="form.formLink" target="_blank">Click here</a>
+
                 <li *ngFor="let field of form.additionalFields">
                   {{ field.value }} ({{ field.inputType }}) 
                   <strong *ngIf="field.isrequired === 'required'">*</strong>
                 </li>
               </ul>
-              <a [href]="form.formLink" target="_blank">{{form.formLink}}</a>
+             
               <div class="d-flex justify-content-end">
                 <button
                   class="btn btn-warning btn-sm"
