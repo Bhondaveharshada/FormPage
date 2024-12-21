@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { FormService } from '../services/form.service';
 import { response } from 'express';
 import { CommonModule } from '@angular/common';
@@ -30,7 +30,7 @@ export class AllFormsComponent implements OnInit {
   // Store all forms fetched from the database
   _id:any 
 
-  constructor(private formService: FormService) {}
+  constructor(private formService: FormService,private router : Router) {}
 
   ngOnInit(): void {
     this.getAllFormFields();
@@ -164,6 +164,10 @@ deleteForm(id:any){
       error: (err) => console.error('Error deleting form:', err),
     });
   }
+}
+
+ViewUserForms(id:any){
+  this.router.navigate([`/userFormsDetails/${id}`]);
 }
 
 
