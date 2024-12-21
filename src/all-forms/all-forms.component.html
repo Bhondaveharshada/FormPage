@@ -1,5 +1,12 @@
 <div class="container-fluid mt-5">
     <h2>Forms</h2>
+    <div class="d-flex justify-content-end align-items-center mb-4 ms-5">
+      <button routerLink="/register">
+       Create New Form
+      </button>
+     
+    </div>
+  
   
     <!-- Form Modal -->
     <div [class.modal-active]="showForm">
@@ -95,12 +102,13 @@
     <!-- Forms List -->
     <div class="container mt-5">
       <div class="row">
-        <div class="col-md-4 mb-4" *ngFor="let form of formFields">
+        <div class="col-12 col-sm-6 col-md-3 mb-5" *ngFor="let form of formFields">
           <div
             class="card card-static"
-            [style.height]="'200px'"
-            (click)="openModal(form)"
-            style="cursor: pointer; border: 1px solid #ccc; border-radius: 5px;"
+            [style.height]="'220px'"
+            [style.width]="'100%'"
+            
+            style=" border: 1px solid #ccc; border-radius: 5px;"
           >
             <div class="card-header d-flex justify-content-between">
               <h5>{{ form.title }}</h5>
@@ -113,12 +121,25 @@
               (click)="stopEvent($event)"
               style="cursor: pointer; text-decoration: underline;"
               class="link-style"
+              title="click here to go to form "
             >
               {{ form.formLink }}
             </a>
+            <button
+            class="btn btn-outline-dark btn-sm"
+            style="height: 30px; width: 100px; margin-left: 60%;"
+            (click)="openModal(form)"
+            data-bs-dismiss="modal"
+            title="See all details"
+            
+          >
+            See Details
+          </button>
+            
           </div>
         </div>
       </div>
+      
     
       <!-- Bootstrap Modal -->
       <div
@@ -157,7 +178,7 @@
                 data-bs-dismiss="modal"
                 title="View all forms submitted by users"
               >
-                View UserForms
+                View Responses
               </button>
               <button
                 class="btn btn-outline-warning btn-sm"
