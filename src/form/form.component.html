@@ -1,10 +1,10 @@
 <div class="container-fluid mt-5">
   <!-- Button to toggle Create Form -->
   <div class="d-flex justify-content-center align-items-center mb-4 ms-6">
-    <button class="btn btn-primary"  (click)="toggleCreateForm()">
+    <button class="btn btn-outline-primary"  (click)="toggleCreateForm()">
       {{ showForm ? 'Close Form' : 'Create New Form' }}
     </button>
-    <button routerLink="/allForms" class="btn btn-primary">See All Forms</button>
+    <button routerLink="/allForms" class="btn btn-outline-primary">See All Forms</button>
   </div>
 
   <!-- Create/Edit Form Section -->
@@ -65,7 +65,7 @@
             <div class="col-md-3">
               <button
                 type="button"
-                class="btn btn-danger"
+                class="btn btn-outline-danger"
                 (click)="deleteField(i)"
               >
                 Delete
@@ -84,14 +84,14 @@
           </button>
         </div> -->
         <div class="d-flex justify-content-center my-3">
-          <button type="button" class="btn btn-primary" (click)="addField()">
+          <button type="button" class="btn btn-outline-primary" (click)="addField()">
             Add Field
           </button>
         
           <button
           type="button"
           class="btn ms-3"
-          [ngClass]="isEditing ? 'btn-warning' : 'btn-success'"
+          [ngClass]="isEditing ? 'btn-outline-warning' : 'btn-outline-success'"
           [disabled]="!title || userForm.invalid"
           (click)="onSave($event)"
         >
