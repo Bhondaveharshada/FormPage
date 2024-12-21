@@ -105,6 +105,7 @@ export class FormgenerateComponent {
          this.userFormData = this.processSubmittedData(fields,userform)
          console.log("userformData",this.userFormData);
          
+         
           
         },error :(err:any)=>{
           console.log("errrorrr");
