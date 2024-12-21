@@ -5,6 +5,8 @@ import { FormService } from '../services/form.service';
 import { response } from 'express';
 import { CommonModule } from '@angular/common';
 import { BootstrapOptions as bootstrap } from '@angular/core';
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 declare var bootstrap :any;
 
 
@@ -16,18 +18,15 @@ declare var bootstrap :any;
   styleUrl: './all-forms.component.css'
 })
 export class AllFormsComponent implements OnInit {
-  formFields: any[] = []; // Array to store fetched form fields
-  selectedFormId: string | null = null; // For tracking which card is clicked
-  showForm: boolean = false; // Toggle for form visibility
-  isEditing: boolean = false; // Toggle for edit mode
-  formIdToEdit: string | null = null; // Tracks form being edited
-
-  // Form data for creation/editing
+  formFields: any[] = []; 
+  selectedFormId: string | null = null; 
+  showForm: boolean = false; 
+  isEditing: boolean = false; 
+  formIdToEdit: string | null = null; 
   title: string = '';
   additionalFields: { value: string; inputType: string }[] = [];
   formLink: any = '';
   isLinkSaved = false;
-  // Store all forms fetched from the database
   _id:any 
 
   constructor(private formService: FormService,private router : Router) {}

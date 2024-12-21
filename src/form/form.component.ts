@@ -3,8 +3,11 @@ import { FormService } from '../services/form.service';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { environment } from '../environment/environment';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
+import { MaterialIcon } from 'material-icons';
+
 @Component({
   selector: 'app-form',
   standalone: true,
@@ -22,7 +25,26 @@ export class FormComponent implements OnInit {
   isLinkSaved = false;
   formFields: any[] = [];
   _id:any
-
+  notyf = new Notyf({
+    duration: 4000, // Default duration for all notifications
+    ripple: true,   // Enable ripple effect
+    dismissible: true, // Allow dismissal
+    position: {
+      x: 'center', 
+      y: 'top',    
+    },
+    types: [
+      {
+        type: 'success', 
+        background: '#28a745', // Green for success
+     
+      },
+      {
+        type: 'error', 
+        background: '#dc3545',
+      },
+    ],
+  });
  
 
 
@@ -109,14 +131,14 @@ export class FormComponent implements OnInit {
       const formId = new Date().getTime();
       this.formService.addFormFields(formData, formId).subscribe({
         next: (res: any) => {
-          const notyf = new Notyf();
+          
           const id = res.result._id;
           this._id = id;
           this.formLink = `${window.location.origin}/form/${id}/${formId}`;
           console.log('formlink form onsave fun', typeof this.formLink, this.formLink);
           const stringLink = `${this.formLink}`;
           console.log('String link', String(stringLink));
-          notyf.success('Success message!');
+          this.notyf.open({ type: 'success', message: 'Form submitted successfully!' });
           this.saveLink();
           this.fetchForms();
           
