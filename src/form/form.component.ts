@@ -3,7 +3,8 @@ import { FormService } from '../services/form.service';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
+import { Notyf } from 'notyf';
+import 'notyf/notyf.min.css';
 @Component({
   selector: 'app-form',
   standalone: true,
@@ -15,16 +16,18 @@ export class FormComponent implements OnInit {
   showForm: boolean = false; // Toggle for form visibility
   isEditing: boolean = false; // Toggle for edit mode
   formIdToEdit: string | null = null; // Tracks form being edited
-
-  // Form data for creation/editing
   title: string = '';
   additionalFields: { value: string; inputType: string, isrequired:string }[] = [];
   formLink: any = '';
   isLinkSaved = false;
-  // Store all forms fetched from the database
   formFields: any[] = [];
   _id:any
+
+ 
+
+
   constructor(private formService: FormService) {}
+
 
   ngOnInit(): void {
     this.fetchForms(); // Fetch all forms initially
@@ -106,15 +109,17 @@ export class FormComponent implements OnInit {
       const formId = new Date().getTime();
       this.formService.addFormFields(formData, formId).subscribe({
         next: (res: any) => {
-          console.log('Form saved successfully:', res);
+          const notyf = new Notyf();
           const id = res.result._id;
           this._id = id;
           this.formLink = `${window.location.origin}/form/${id}/${formId}`;
           console.log('formlink form onsave fun', typeof this.formLink, this.formLink);
           const stringLink = `${this.formLink}`;
           console.log('String link', String(stringLink));
+          notyf.success('Success message!');
           this.saveLink();
           this.fetchForms();
+          
         },
         error: (err: any) => console.error('Error saving form:', err),
       });
