@@ -3,6 +3,8 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ReactiveFormsModule, Validators, FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { CommonModule, JsonPipe } from '@angular/common';
 import { FormService } from '../services/form.service';
+import Swal from 'sweetalert2';
+
 @Component({
   selector: 'app-formgenerate',
   standalone: true,
@@ -98,7 +100,12 @@ export class FormgenerateComponent {
           const fields = this.fields;
           const userform = res.result.additionalFields
           console.log("userform stored",userform);
-          alert("Form Submitted Successfully!!!")
+          Swal.fire({
+            title: 'Success!',
+            text: 'form submitted successfully',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
           const id = res.result._id
           console.log("Id",id);
      /*      this.formService.getUserForm(id).subscribe({
