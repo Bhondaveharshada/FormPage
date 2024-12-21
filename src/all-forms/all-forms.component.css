@@ -247,6 +247,10 @@ body {
   .card-header h5 {
     font-size: 16px;
   }
+  .card a{
+    margin: 1rem;
+    padding: 2rem;
+  }
 
   .card-body ul li {
     font-size: 12px;
@@ -257,6 +261,17 @@ body {
     font-size: 10px;
   }
 }
+
+.link-style {
+  display: block;
+  margin: 10px;
+  padding: 10px;
+ font-size: small;
+  border-radius: 5px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 
    
     
