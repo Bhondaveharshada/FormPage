@@ -52,10 +52,11 @@ export class FormComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.fetchForms(); // Fetch all forms initially
+    this.fetchForms();
+    this.toggleCreateForm() // Fetch all forms initially
   }
 
-  // Fetch all forms from the backend
+  // Fetch all fonpmrms from the backend
   fetchForms(): void {
     this.formService.getAllFormFields().subscribe({
       next: (res: any) => {
