@@ -20,7 +20,7 @@ export class FormComponent implements OnInit {
   isEditing: boolean = false; // Toggle for edit mode
   formIdToEdit: string | null = null; // Tracks form being edited
   title: string = '';
-  additionalFields: { value: string; inputType: string, isrequired:string }[] = [];
+  additionalFields: { value: string; inputType: string, isrequired:string, numberOfCheckboxes: number; checkboxOptions: string[]}[] = [];
   formLink: any = '';
   isLinkSaved = false;
   formFields: any[] = [];
@@ -69,7 +69,13 @@ export class FormComponent implements OnInit {
 
   // Add a new dynamic field
   addField(): void {
-    this.additionalFields.push({ value: '', inputType: 'text', isrequired: 'optional' });
+    this.additionalFields.push({
+      value: '',
+      inputType: 'text', // Default type is text
+      isrequired: 'optional',
+      checkboxOptions: [], // Initialize checkboxOptions as an empty array
+      numberOfCheckboxes: 0, // Initialize the number of checkboxes
+    });
   }
   
 
@@ -91,6 +97,26 @@ export class FormComponent implements OnInit {
    
    
   }
+
+  onInputTypeChange(field: any): void {
+    if (field.inputType === 'checkbox') {
+      field.numberOfCheckboxes = 0; // Reset number of checkboxes
+      field.checkboxOptions = []; // Reset checkbox options
+    } else {
+      delete field.numberOfCheckboxes;
+      delete field.checkboxOptions;
+    }
+  }
+
+  generateCheckboxOptions(field: any): void {
+    if (field.numberOfCheckboxes > 0) {
+      // Create an array with the specified number of checkbox options
+      field.checkboxOptions = Array(field.numberOfCheckboxes).fill('');
+    } else {
+      field.checkboxOptions = [];
+    }
+  }
+  
 
   // Populate form data for editing
 /*   editForm(form: any): void {
@@ -115,7 +141,12 @@ export class FormComponent implements OnInit {
      event.preventDefault(); // Prevent the default form submission behavior
     const formData = {
       title: this.title,
-      additionalFields: this.additionalFields,
+      additionalFields: this.additionalFields.map((field) => ({
+        value: field.value,
+        inputType: field.inputType,
+        isrequired: field.isrequired,
+        checkboxOptions: field.checkboxOptions || null, // Include options if available
+      })),
     };
   /*
     if (this.isEditing && this.formIdToEdit) {

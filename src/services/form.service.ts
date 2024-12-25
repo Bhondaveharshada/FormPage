@@ -22,6 +22,8 @@ export class FormService {
 
   addFormFields(data:any, formId:any){
     const {title,addformfields} = data
+    console.log("data from service  ",data);
+    
     return this.http.post(`${environment.api}/addformfields`, {data,formId});
   }
 
