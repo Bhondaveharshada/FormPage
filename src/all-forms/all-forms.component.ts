@@ -24,7 +24,7 @@ export class AllFormsComponent implements OnInit {
   isEditing: boolean = false; 
   formIdToEdit: string | null = null; 
   title: string = '';
-  additionalFields: { value: string; inputType: string }[] = [];
+  additionalFields: { value: string; inputType: string,isrequired:string, numberOfCheckboxes: number, checkboxOptions: string[],radioButtonOptions:string[] , numberOfRadioButtons:number  }[] = [];
   formLink: any = '';
   isLinkSaved = false;
   _id:any 
@@ -70,7 +70,14 @@ export class AllFormsComponent implements OnInit {
 
  // Add a new dynamic field
  addField(): void {
-  this.additionalFields.push({ value: '', inputType: 'text' });
+  this.additionalFields.push({  value: '',
+    inputType: 'text', // Default type is text
+    isrequired: 'optional',
+    checkboxOptions: [],
+    numberOfCheckboxes: 0,
+    radioButtonOptions: [], 
+    numberOfRadioButtons:0,
+  });
 }
 
 // Delete a specific field
@@ -92,6 +99,41 @@ toggleCreateForm(): void {
  
 }
 
+onInputTypeChange(field: any): void {
+  if (field.inputType === 'checkbox') {
+    field.numberOfCheckboxes = 0; // Reset number of checkboxes
+    field.checkboxOptions = []; // Reset checkbox options
+  }
+   else if (field.inputType === 'radio') {
+    field.numberOfRadioButtons = 0; // Reset number of radio buttons
+    field.radioButtonOptions = []; 
+  }
+    else {
+    delete field.numberOfCheckboxes;
+    delete field.checkboxOptions;
+    delete field.numberOfRadioButtons;
+    delete field.radioButtonOptions;
+  }
+}
+
+generateCheckboxOptions(field: any): void {
+  if (field.numberOfCheckboxes > 0) {
+    // Create an array with the specified number of checkbox options
+    field.checkboxOptions = Array(field.numberOfCheckboxes).fill('');
+  } else {
+    field.checkboxOptions = [];
+  }
+}
+
+
+generateRadioButtonOptions(field: any): void {
+if (field.numberOfRadioButtons > 0) {
+  // Create an array with the specified number of radio button options
+  field.radioButtonOptions = Array(field.numberOfRadioButtons).fill('');
+} else {
+  field.radioButtonOptions = [];
+}
+}
 // Populate form data for editing
 editForm(form: any): void {
   
@@ -107,6 +149,11 @@ editForm(form: any): void {
   this.additionalFields = form.additionalFields.map((field: any) => ({
     value: field.value,
     inputType: field.inputType,
+    isrequired:field.isrequired,
+    checkboxOption:field.checkboxOption,
+    numberOfCheckboxes: field.numberOfCheckboxes, 
+    radioButtonOptions:field.radioButtonOptions, 
+    numberOfRadioButtons: field.numberOfRadioButtons, 
   }));
 
 }
@@ -118,7 +165,14 @@ onSave(event: Event): void {
   const formId = new Date().getTime();
   const formData = {
     title: this.title,
-    additionalFields: this.additionalFields,
+    additionalFields: this.additionalFields.map((field) => ({
+      value: field.value,
+      inputType: field.inputType,
+      isrequired: field.isrequired,
+      checkboxOptions: field.checkboxOptions, // Include options if available
+      radioButtonOptions:field.radioButtonOptions,
+    
+    })),
   };
 
   if (this.isEditing && this.formIdToEdit) {

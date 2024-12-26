@@ -5,6 +5,16 @@ import { CommonModule, JsonPipe } from '@angular/common';
 import { FormService } from '../services/form.service';
 import Swal from 'sweetalert2';
 
+
+interface Field {
+  checkboxOptions?: string[]; // Optional property
+  radioButtonOptions?:string[];
+  inputType: string;
+  isrequired: string;
+  value: string;
+  _id: string;
+}
+
 @Component({
   selector: 'app-formgenerate',
   standalone: true,
@@ -20,8 +30,10 @@ export class FormgenerateComponent {
   
   userFormData :any ;
   formData: any = null; // Static title and question
-  fields: [] = [];
+  fields:  Field[] = [];
   formfieldId:any;
+  checkboxoptions: string[] = [];
+  radioButtonOptions:string[]=[];
   
   constructor(private fb: FormBuilder,private route: ActivatedRoute, private formService:FormService, ) {
   
@@ -44,7 +56,7 @@ export class FormgenerateComponent {
         fieldControl.get('value')?.updateValueAndValidity(); // Recalculate validations
       });
     });
-
+   
      
   
   }
@@ -54,7 +66,28 @@ export class FormgenerateComponent {
       next:(response:any)=>{
         this.formData=response.result
         this.fields=response.result.additionalFields.map((field: any) => field);
-        console.log("fields",this.fields);
+        const checkboxField = this.fields.find(
+          (field: any) => field.inputType === "checkbox"
+        );
+        if (checkboxField) {
+          this.checkboxoptions = checkboxField.checkboxOptions || [];
+        }
+
+        const radiobuttonField= this.fields.find(
+        (field:any)=>field.inputType === "radio"
+        );
+
+
+        if (radiobuttonField){
+          this.radioButtonOptions= radiobuttonField.radioButtonOptions || [];
+        }
+        console.log("Fields from backend:", this.fields);
+        console.log("Checkbox options:", this.checkboxoptions);
+        console.log("radio buttons ", this.radioButtonOptions);
+        
+  
+       
+        
         
        /*  console.log("formfields",this.formData); */
         this.previewForm = this.fb.group({
@@ -64,7 +97,9 @@ export class FormgenerateComponent {
               this.fb.group({
                 value: ['', this.getDynamicValidators(field)], // Pre-fill values
                 inputType: [field.inputType, Validators.required], 
-                isrequired: [field.isrequired]
+                isrequired: [field.isrequired],
+                checkboxOptions: [Array.isArray(field.checkboxOptions) ? field.checkboxOptions : []],
+                radioButtonOptions:[Array.isArray(field.radioButtonOptions) ? field.radioButtonOptions : []]
               }) 
             )
           ),
@@ -110,7 +145,7 @@ export class FormgenerateComponent {
         next:(res:any)=>{
           const fields = this.fields;
           const userform = res.result.additionalFields
-          console.log("userform stored",userform);
+          
           Swal.fire({
             title: 'Success!',
             text: 'form submitted successfully',

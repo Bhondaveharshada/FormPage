@@ -20,7 +20,7 @@ export class FormComponent implements OnInit {
   isEditing: boolean = false; // Toggle for edit mode
   formIdToEdit: string | null = null; // Tracks form being edited
   title: string = '';
-  additionalFields: { value: string; inputType: string, isrequired:string, numberOfCheckboxes: number; checkboxOptions: string[]}[] = [];
+  additionalFields: { value: string; inputType: string, isrequired:string, numberOfCheckboxes: number, checkboxOptions: string[],radioButtonOptions:string[] , numberOfRadioButtons:number}[] = [];
   formLink: any = '';
   isLinkSaved = false;
   formFields: any[] = [];
@@ -73,8 +73,10 @@ export class FormComponent implements OnInit {
       value: '',
       inputType: 'text', // Default type is text
       isrequired: 'optional',
-      checkboxOptions: [], // Initialize checkboxOptions as an empty array
-      numberOfCheckboxes: 0, // Initialize the number of checkboxes
+      checkboxOptions: [],
+      numberOfCheckboxes: 0, 
+      radioButtonOptions: [], 
+      numberOfRadioButtons: 0, 
     });
   }
   
@@ -102,9 +104,16 @@ export class FormComponent implements OnInit {
     if (field.inputType === 'checkbox') {
       field.numberOfCheckboxes = 0; // Reset number of checkboxes
       field.checkboxOptions = []; // Reset checkbox options
-    } else {
+    }
+     else if (field.inputType === 'radio') {
+      field.numberOfRadioButtons = 0; // Reset number of radio buttons
+      field.radioButtonOptions = []; 
+    }
+      else {
       delete field.numberOfCheckboxes;
       delete field.checkboxOptions;
+      delete field.numberOfRadioButtons;
+      delete field.radioButtonOptions;
     }
   }
 
@@ -116,6 +125,16 @@ export class FormComponent implements OnInit {
       field.checkboxOptions = [];
     }
   }
+
+
+generateRadioButtonOptions(field: any): void {
+  if (field.numberOfRadioButtons > 0) {
+    // Create an array with the specified number of radio button options
+    field.radioButtonOptions = Array(field.numberOfRadioButtons).fill('');
+  } else {
+    field.radioButtonOptions = [];
+  }
+}
   
 
   // Populate form data for editing
@@ -146,6 +165,8 @@ export class FormComponent implements OnInit {
         inputType: field.inputType,
         isrequired: field.isrequired,
         checkboxOptions: field.checkboxOptions || null, // Include options if available
+        radioButtonOptions:field.radioButtonOptions ||null,
+      
       })),
     };
   /*
