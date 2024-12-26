@@ -2,39 +2,84 @@
   <h1 class="text-center card-title">{{ formData.title }}</h1>
   
   <form *ngIf="previewForm" [formGroup]="previewForm" class="row g-4">
-    <div formArrayName="additionalFields" class="w-100">
-      <div
-        *ngFor="let field of additionalFields.controls; let i = index"
-        [formGroupName]="i"
-        class="col-md-8 card-body"
-      >
-        <label class="form-label fw-bold">
-          {{ fields[i]['value'] }} <strong *ngIf="fields[i]['isrequired'] === 'required'">*</strong>
-        </label>
+  <div formArrayName="additionalFields" class="w-100">
+    <div
+      *ngFor="let field of additionalFields.controls; let i = index"
+      [formGroupName]="i"
+      class="col-md-8 card-body"
+    >
+      <label class="form-label fw-bold">
+        {{ fields[i]['value'] }} 
+        <strong *ngIf="fields[i]['isrequired'] === 'required'">*</strong>
+      </label>
+      
+      <!-- Dynamic Input -->
+      <ng-container [ngSwitch]="fields[i]['inputType']">
+        <!-- Regular Input -->
         <input
-          [type]="fields[i]['inputType']"
+          *ngSwitchCase="'text'"
+          type="text"
           class="form-control"
           formControlName="value"
           [placeholder]="'Enter a value'"
         />
-        
-        <!-- Error Messages -->
-        <div *ngIf="field.get('value')?.touched && field.get('value')?.invalid" class="text-danger">
-          <div *ngIf="field.get('value')?.errors?.['required']">
-            This field is required.
-          </div>
-          <div *ngIf="field.get('value')?.errors?.['email']">
-            Please enter a valid email address.
-          </div>
-          <div *ngIf="field.get('value')?.errors?.['pattern']">
-            Only numeric values are allowed.
-          </div>
-          <div *ngIf="field.get('value')?.errors?.['minlength']">
-            Minimum length required: {{ field.get('value')?.errors?.['minlength']?.requiredLength }} characters.
-          </div>
+        <input
+          *ngSwitchCase="'number'"
+          type="number"
+          class="form-control"
+          formControlName="value"
+          [placeholder]="'Enter a value'"
+        />
+        <input
+          *ngSwitchCase="'email'"
+          type="email"
+          class="form-control"
+          formControlName="value"
+          [placeholder]="'Enter a value'"
+        />
+        <input
+          *ngSwitchCase="'password'"
+          type="password"
+          class="form-control"
+          formControlName="value"
+          [placeholder]="'Enter a value'"
+        />
+        <input
+          *ngSwitchCase="'datetime-local'"
+          type="datetime-local"
+          class="form-control"
+          formControlName="value"
+          [placeholder]="'Select a date and time'"
+        />
+        <!-- Checkbox -->
+        <div *ngSwitchCase="'checkbox'">
+          <input
+            type="checkbox"
+            class="form-check-input"
+            formControlName="value"
+          />
+          <label class="form-check-label">Check me</label>
+        </div>
+      </ng-container>
+      
+      <!-- Error Messages -->
+      <div *ngIf="field.get('value')?.touched && field.get('value')?.invalid" class="text-danger">
+        <div *ngIf="field.get('value')?.errors?.['required']">
+          This field is required.
+        </div>
+        <div *ngIf="field.get('value')?.errors?.['email']">
+          Please enter a valid email address.
+        </div>
+        <div *ngIf="field.get('value')?.errors?.['pattern']">
+          Only numeric values are allowed.
+        </div>
+        <div *ngIf="field.get('value')?.errors?.['minlength']">
+          Minimum length required: {{ field.get('value')?.errors?.['minlength']?.requiredLength }} characters.
         </div>
       </div>
     </div>
+  </div>
+
 
     <!-- Submit Button -->
     <div class="col-md-12 text-center">
