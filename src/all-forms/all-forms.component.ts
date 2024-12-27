@@ -51,7 +51,10 @@ export class AllFormsComponent implements OnInit {
 
   openModal(form: any): void {
     this.selectedForm = form;
+    console.log("form",this.selectedForm);
+    
     const modalElement = document.getElementById('formDetailsModal');
+
     if (modalElement) {
       const bootstrapModal = new bootstrap.Modal(modalElement);
       bootstrapModal.show();
@@ -79,6 +82,9 @@ export class AllFormsComponent implements OnInit {
     numberOfRadioButtons:0,
   });
 }
+
+
+
 
 // Delete a specific field
 deleteField(index: number): void {

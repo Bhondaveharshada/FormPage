@@ -95,7 +95,7 @@ export class FormgenerateComponent {
           additionalFields: this.fb.array(
             this.formData.additionalFields.map((field: any) =>
               this.fb.group({
-                value: ['', this.getDynamicValidators(field)], // Pre-fill values
+                value:field.inputType === 'checkbox' ? [[]] : ['', this.getDynamicValidators(field)], // Pre-fill values
                 inputType: [field.inputType, Validators.required], 
                 isrequired: [field.isrequired],
                 checkboxOptions: [Array.isArray(field.checkboxOptions) ? field.checkboxOptions : []],
@@ -111,6 +111,27 @@ export class FormgenerateComponent {
       }
     });
   }
+
+  onCheckboxChange(event: any, fieldIndex: number): void {
+  const fieldControl = this.additionalFields.at(fieldIndex).get('value');
+  const selectedValues = fieldControl?.value || [];
+
+  if (event.target.checked) {
+    // Add selected option
+    selectedValues.push(event.target.value);
+  } else {
+    // Remove unselected option
+    const index = selectedValues.indexOf(event.target.value);
+    if (index !== -1) {
+      selectedValues.splice(index, 1);
+    }
+  }
+
+  // Update FormControl value
+  fieldControl?.setValue(selectedValues);
+  fieldControl?.updateValueAndValidity();
+}
+
 
   
   getValidators(inputType: string) {

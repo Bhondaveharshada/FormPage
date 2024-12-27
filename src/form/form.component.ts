@@ -125,6 +125,11 @@ export class FormComponent implements OnInit {
       field.checkboxOptions = [];
     }
   }
+  
+  trackByIndex(index: number, item: any): number {
+    return index;
+  }
+  
 
 
 generateRadioButtonOptions(field: any): void {
