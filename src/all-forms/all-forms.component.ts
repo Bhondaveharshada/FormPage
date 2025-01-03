@@ -64,6 +64,7 @@ export class AllFormsComponent implements OnInit {
     event.stopPropagation();
   }
 
+
   
 
   // Toggle the display of additional fields
@@ -84,16 +85,13 @@ export class AllFormsComponent implements OnInit {
 }
 
 
-
-
-// Delete a specific field
 deleteField(index: number): void {
   if (index >= 0 && index < this.additionalFields.length) {
     this.additionalFields.splice(index, 1);
   }
 }
 
-// Toggle the form for creating/editing
+
 toggleCreateForm(): void {
   if(this.showForm){
     this.resetForm()
@@ -105,41 +103,33 @@ toggleCreateForm(): void {
  
 }
 
-onInputTypeChange(field: any): void {
-  if (field.inputType === 'checkbox') {
-    field.numberOfCheckboxes = 0; // Reset number of checkboxes
-    field.checkboxOptions = []; // Reset checkbox options
-  }
-   else if (field.inputType === 'radio') {
-    field.numberOfRadioButtons = 0; // Reset number of radio buttons
-    field.radioButtonOptions = []; 
-  }
-    else {
-    delete field.numberOfCheckboxes;
-    delete field.checkboxOptions;
-    delete field.numberOfRadioButtons;
-    delete field.radioButtonOptions;
-  }
+addOption(field: any): void {
+  field.radioButtonOptions.push('');
 }
 
-generateCheckboxOptions(field: any): void {
-  if (field.numberOfCheckboxes > 0) {
-    // Create an array with the specified number of checkbox options
-    field.checkboxOptions = Array(field.numberOfCheckboxes).fill('');
-  } else {
-    field.checkboxOptions = [];
-  }
+removeOption(field: any, index: number): void {
+  field.radioButtonOptions.splice(index, 1);
 }
-
 
 generateRadioButtonOptions(field: any): void {
-if (field.numberOfRadioButtons > 0) {
-  // Create an array with the specified number of radio button options
-  field.radioButtonOptions = Array(field.numberOfRadioButtons).fill('');
-} else {
-  field.radioButtonOptions = [];
+  const currentLength = field.radioButtonOptions?.length || 0;
+  const newLength = field.numberOfRadioButtons;
+
+  if (!field.radioButtonOptions) {
+    field.radioButtonOptions = [];
+  }
+
+  if (newLength > currentLength) {
+    // Add new options to the array
+    for (let i = currentLength; i < newLength; i++) {
+      field.radioButtonOptions.push('');
+    }
+  } else if (newLength < currentLength) {
+    // Remove excess options from the array
+    field.radioButtonOptions.splice(newLength);
+  }
 }
-}
+
 // Populate form data for editing
 editForm(form: any): void {
   
@@ -156,7 +146,7 @@ editForm(form: any): void {
     value: field.value,
     inputType: field.inputType,
     isrequired:field.isrequired,
-    checkboxOption:field.checkboxOption,
+    checkboxOptions:field.checkboxOptions,
     numberOfCheckboxes: field.numberOfCheckboxes, 
     radioButtonOptions:field.radioButtonOptions, 
     numberOfRadioButtons: field.numberOfRadioButtons, 
@@ -211,6 +201,39 @@ onSave(event: Event): void {
   }
 }
 
+removeCheckboxOption(field: any, index: number): void {
+  if (index >= 0 && index < field.checkboxOptions.length) {
+    field.checkboxOptions.splice(index, 1); // Remove the option
+  }
+}
+
+// Method to add a new checkbox option
+addCheckboxOption(field: any): void {
+  if (!field.checkboxOptions) {
+    field.checkboxOptions = []; // Initialize array if not defined
+  }
+  field.checkboxOptions.push(''); // Add a new empty option
+}
+
+
+removeRadioOption(field: any, index: number): void {
+  if (index >= 0 && index < field.radioButtonOptions.length) {
+    field.radioButtonOptions.splice(index, 1); 
+  }
+}
+
+
+addRadioOption(field: any): void {
+  if (!field.radioButtonOptions) {
+    field.radioButtonOptions = []; 
+  }
+  field.radioButtonOptions.push(''); 
+}
+
+
+trackByIndex(index: number): number {
+  return index; // Use the index as the unique identifier
+}
 onCancel(): void {
   this.resetForm();
 }
