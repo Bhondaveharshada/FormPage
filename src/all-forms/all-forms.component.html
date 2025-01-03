@@ -197,47 +197,48 @@
              
                     
   
-    <!-- Forms List -->
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-12 col-sm-6 col-md-5 mb-5" *ngFor="let form of formFields">
-          <div
-            class="card card-static"
-            [style.height]="'220px'"
-            [style.width]="'100%'"
-            
-            style=" border: 1px solid #ccc; border-radius: 5px;"
-          >
-            <div class="card-header d-flex justify-content-between">
-              <h5>{{ form.title }}</h5>
-              <small>{{ form.createdAt | date: 'short' }}</small>
-            </div>
-            
-            <a
-              [href]="form.formLink"
-              target="_blank"
-              (click)="stopEvent($event)"
-              style="cursor: pointer; text-decoration: underline;"
-              class="link-style"
-              title="click here to go to form "
-            >
-              {{ form.formLink }}
-            </a>
-            <button
-            class="btn btn-outline-dark btn-sm"
-            style="height: 30px; width: 100px; margin-left: 60%;"
-            (click)="openModal(form)"
-            data-bs-dismiss="modal"
-            title="See all details"
-            
-          >
-            See Details
-          </button>
-            
-          </div>
+ <!-- Forms List -->
+ <div class="container mt-5">
+  <div class="row">
+    <div class="col-12 col-sm-6 col-md-3 mb-5" *ngFor="let form of formFields">
+      <div
+        class="card card-static"
+        [style.height]="'220px'"
+        [style.width]="'100%'"
+        
+        style=" border: 1px solid #ccc; border-radius: 5px;"
+      >
+        <div class="card-header d-flex justify-content-between">
+          <h5>{{ form.title }}</h5>
+          <small>{{ form.createdAt | date: 'short' }}</small>
         </div>
+        
+        <a
+          [href]="form.formLink"
+          target="_blank"
+          (click)="stopEvent($event)"
+          style="cursor: pointer; text-decoration: underline;"
+          class="link-style"
+          title="click here to go to form "
+        >
+          {{ form.formLink }}
+        </a>
+        <button
+        class="btn btn-outline-dark btn-sm"
+        style="height: 30px; width: 100px; margin-left: 60%;"
+        (click)="openModal(form)"
+        data-bs-dismiss="modal"
+        title="See all details"
+        
+      >
+        See Details
+      </button>
+        
       </div>
-      
+    </div>
+  </div>
+  
+
     
       <!-- Bootstrap Modal -->
       <div
